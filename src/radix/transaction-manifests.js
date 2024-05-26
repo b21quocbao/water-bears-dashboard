@@ -3,23 +3,26 @@ export const TransactionManifests = ({
   stakePoolComponent,
   waterBearResource
 }) => {
-  const buyWaterBear = ({ accountAddress, xrdAddress }) => {
+  const buyWaterBear = ({ accountAddress, xrdAddress, amount }) => {
     const transactionManifest = `
     CALL_METHOD
         Address("${accountAddress}")
         "withdraw"
         Address("${xrdAddress}")
-        Decimal("250")
+        Decimal("${250 * amount}")
     ;
-    TAKE_ALL_FROM_WORKTOP
-        Address("${xrdAddress}")
-        Bucket("nft_bucket")
+    ${Array.apply(null, Array(5)).map((_, i) =>`
+    TAKE_FROM_WORKTOP
+      Address("${xrdAddress}")
+      Decimal("250")
+      Bucket("nft_bucket_${i}")
     ;
     CALL_METHOD
-        Address("${waterBearComponent}")
-        "buy_nft"
-        Bucket("nft_bucket")
+      Address("${waterBearComponent}")
+      "buy_nft"
+      Bucket("nft_bucket_${i}")
     ;
+    `).join('')}
     CALL_METHOD
         Address("${accountAddress}")
         "deposit_batch"
