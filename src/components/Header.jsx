@@ -5,6 +5,7 @@ import HamburgerIcon from "../assets/svg/hamburger.svg?react";
 import CloseIcon from "../assets/svg/close.svg?react";
 import groupImg from "../assets/images/Group.png";
 import WaterBearsLogo from "../assets/images/water-bears.png";
+import styles from "./MintHero.module.css";
 import { useState } from "react";
 import { useSendTransactionManifest } from "../hooks/useSendTransactionManifest";
 import { useAccounts } from "../hooks/useAccounts";
@@ -80,6 +81,48 @@ const Header = () => {
             </a>
           </nav>
           <div className="header-socials">
+            {!accounts.length ? (
+              <>
+                <div className={styles["radix-connect-button"]}>
+                  <radix-connect-button ref={ref} />
+                  {showTooltip && (
+                    <Tooltip
+                      className={styles.tooltip}
+                      onClose={() =>
+                        setState((prev) => ({ ...prev, hideTooltip: true }))
+                      }
+                    >
+                      You have a request waiting! Open your Radix Wallet mobile
+                      app to review and approve.
+                    </Tooltip>
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                <AccountPicker
+                  className="mb-2"
+                  accounts={accounts}
+                  selected={selectedAccountAddress}
+                  onSelect={(selectedAccountAddress) =>
+                    setState((prev) => ({
+                      ...prev,
+                      selectedAccountAddress,
+                    }))
+                  }
+                />
+                <button
+                  className="hero-mint-btn"
+                  onClick={() =>
+                    buyWaterBear({
+                      accountAddress: selectedAccountAddress,
+                    })
+                  }
+                >
+                  Mint Now
+                </button>
+              </>
+            )}
             <button
               onClick={handleConnectClick}
               ref={ref}
