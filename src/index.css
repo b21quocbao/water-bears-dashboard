@@ -23,6 +23,30 @@
   --normal-fs: calc(24rem / 16);
   --regular-fs: calc(18rem / 16);
   --small-fs: calc(16rem / 16);
+
+  --blue: #1b2b8a;
+  --blue-100: #f3f6ff;
+  --blue-900: #233876;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-500: #6b7280;
+  --gray-900: #111928;
+  --white: #fff;
+  --yellow: #fbe08e;
+  --yellow-100: #fee8a7;
+  --background: #fbfcff;
+  --pink: #fff1fe;
+  --red: #f05252;
+  --green: #e3ffe2;
+  --green-200: #1fb871;
+
+  /* shadows */
+  --shadow-sm: 0px 1px 2px 0px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0px 2px 4px -2px rgba(0, 0, 0, 0.05),
+    0px 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0px 4px 6px 0px rgba(0, 0, 0, 0.05),
+    0px 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 /*=============== BASE ===============*/
@@ -984,4 +1008,8 @@ h6 {
   .bears-slider-content-text {
     font-size: var(--normal-fs);
   }
+}
+
+.clickable {
+  cursor: pointer;
 }

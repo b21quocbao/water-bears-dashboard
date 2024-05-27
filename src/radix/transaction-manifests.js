@@ -11,7 +11,7 @@ export const TransactionManifests = ({
         Address("${xrdAddress}")
         Decimal("${250 * amount}")
     ;
-    ${Array.apply(null, Array(5)).map((_, i) =>`
+    ${Array.apply(null, Array(amount)).map((_, i) =>`
     TAKE_FROM_WORKTOP
       Address("${xrdAddress}")
       Decimal("250")
