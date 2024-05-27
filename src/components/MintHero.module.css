@@ -182,3 +182,8 @@
 .mintButton {
   width: 200px !important;
 }
+
+.radix-connect-button {
+  position: relative;
+  display: flex;
+}

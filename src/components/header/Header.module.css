@@ -11,10 +11,6 @@
   text-align: center;
 }
 
-.radix-connect-button {
-  position: relative;
-}
-
 .header-right {
   display: flex;
   align-items: center;

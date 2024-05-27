@@ -1,21 +1,24 @@
-import { useState } from 'react';
-import HeroLeftDecorator from '../assets/images/hero-left-decorator.png';
-import HeroRightDecorator from '../assets/images/hero-right-decorator.png';
+import { useState } from "react";
+import HeroLeftDecorator from "../assets/images/hero-left-decorator.png";
+import HeroRightDecorator from "../assets/images/hero-right-decorator.png";
+import { useSendTransactionManifest } from "../hooks/useSendTransactionManifest";
 
-export const MintHero = () => {
+export const MintHero = ({ selectedAccountAddress }) => {
   const [count, setCount] = useState(0);
 
+  const { buyWaterBear } = useSendTransactionManifest()();
+
   const increment = () => {
-    setCount(prevCount => Math.min(prevCount + 1, 10000)); // Limit to 10000
+    setCount((prevCount) => Math.min(prevCount + 1, 20)); // Limit to 20
   };
 
   const decrement = () => {
-    setCount(prevCount => Math.max(prevCount - 1, 0)); // Limit to 0
+    setCount((prevCount) => Math.max(prevCount - 1, 0)); // Limit to 0
   };
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const newCount = parseInt(event.target.value, 10);
-    if (isNaN(newCount) || newCount < 0 || newCount > 10000) {
+    if (isNaN(newCount) || newCount < 0 || newCount > 20) {
       return; // Ignore invalid input
     }
     setCount(newCount);
@@ -23,7 +26,7 @@ export const MintHero = () => {
 
   const handleFocus = () => {
     if (count === 0) {
-      setCount(''); // Clear input value on focus only if it's 0
+      setCount(""); // Clear input value on focus only if it's 0
     }
   };
 
@@ -62,7 +65,17 @@ export const MintHero = () => {
                     +
                   </button>
                 </div>
-                <button className="hero-mint-btn">Mint Now</button>
+                <button
+                  className="hero-mint-btn"
+                  onClick={() =>
+                    buyWaterBear({
+                      accountAddress: selectedAccountAddress,
+                      amount: count,
+                    })
+                  }
+                >
+                  Mint Now
+                </button>
               </div>
             </div>
           </div>
