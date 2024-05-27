@@ -123,14 +123,14 @@ const Header = () => {
                 </button>
               </>
             )}
-            <button
+            {/* <button
               onClick={handleConnectClick}
               ref={ref}
               className="connect-btn"
             >
               <img src={groupImg} alt="" />
               Connect
-            </button>
+            </button> */}
             <a href="#">
               <TwitterIcon />
             </a>
