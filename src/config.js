@@ -22,11 +22,11 @@ const networkConfig = {
       'account_tdx_2_12yuarmrpvd9kkl99qqk6czw8xf6rzg6h80nf7xa7gdf0fegk49a30s',
     addresses: {
       waterBearComponent:
-        'component_tdx_2_1cp5a2n5y9h2neapph95t86d6g5tmvjshzk6vze0a47zkl5wuk7zq0v',
+        'component_tdx_2_1cqh6ktv53ktlq9fcjwmerh55jee86qyg23w9avfl6vk04nmlzqlc7g',
       stakePoolComponent:
         'component_tdx_2_1crsautj4ktwsw42ve6703ruer4v946krxsqq70nsd2spmexd9svtsd',
       waterBearResource:
-        'resource_tdx_2_1ntvqksstn4hkte96sys62hkal5g5nv6hfvc4tj5mu9pl8g74echdh8',
+        'resource_tdx_2_1n2khts5x5l632l9ehtm0724erlh8rmch0xu7fq5q8mrfcsftnkvj89',
     },
   },
 }[network.networkName]
