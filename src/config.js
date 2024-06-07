@@ -11,6 +11,8 @@ const networkConfig = {
     addresses: {
       waterBearComponent:
         'component_rdx1cz8sufk6wunsnnnh5ckrhrn3n6stl4ve6dctrphaa8zf3q06kle6hv',
+      waterBearStakeIdResource:
+        'resource_rdx1ngzqt45zkhrrhetevsuhhnp09fvh6sa86gfskx7wekme7qntg87yrm',
       stakePoolComponent:
         'component_rdx1cz8sufk6wunsnnnh5ckrhrn3n6stl4ve6dctrphaa8zf3q06kle6hv',
       waterBearResource:
@@ -23,8 +25,10 @@ const networkConfig = {
     addresses: {
       waterBearComponent:
         'component_tdx_2_1cqh6ktv53ktlq9fcjwmerh55jee86qyg23w9avfl6vk04nmlzqlc7g',
+      waterBearStakeIdResource:
+        'resource_tdx_2_1nfk3devv4zat0dgn0q00v9fe0ggpmkuaeq8wtzl662m60wuvs59dml',
       stakePoolComponent:
-        'component_tdx_2_1crsautj4ktwsw42ve6703ruer4v946krxsqq70nsd2spmexd9svtsd',
+        'component_tdx_2_1cz5wzsgmcwwhx4vl5e70jtenjn9mf28hyxn8ung2kwmlkdutttl5s2',
       waterBearResource:
         'resource_tdx_2_1n2khts5x5l632l9ehtm0724erlh8rmch0xu7fq5q8mrfcsftnkvj89',
     },
