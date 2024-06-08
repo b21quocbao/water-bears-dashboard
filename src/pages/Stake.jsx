@@ -5,7 +5,7 @@ import heroRightImg from "../assets/images/hero-right-decorator-removebg-preview
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useSendTransactionManifest } from "../hooks/useSendTransactionManifest";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAccounts } from "../hooks/useAccounts";
 import { config } from "../config";
 import {
@@ -14,59 +14,62 @@ import {
 } from "@radixdlt/babylon-gateway-api-sdk";
 
 const Stake = () => {
-  const [accountAddress, setAccountAddress] = useState("");
   const [stakedNftIds, setStakedNftIds] = useState(null);
   const [stakeData, setStakeData] = useState(null);
   const {
     state: { accounts },
+    refresh,
   } = useAccounts();
+  const [accountAddress, setAccountAddress] = useState("");
 
-  const unstakedNftIds = useMemo(() => {
-    const account = accounts.find(
-      (account) => account.address == accountAddress
-    );
-    let nfts = account
-      ? account.nonFungibleTokens[config.addresses.waterBearResource]
-      : [];
-    return nfts ? nfts.map((x) => x.id) : [];
-  }, [accounts, accountAddress]);
-
-  const waterBearStakeId = useMemo(() => {
-    try {
-      const account = accounts.find(
-        (account) => account.address == accountAddress
-      );
-      return account
-        ? account.nonFungibleTokens[
-            config.addresses.waterBearStakeIdResource
-          ][0].id
-        : null;
-    } catch (err) {
-      return null;
+  useEffect(() => {
+    if (accounts && accounts[0] && !accountAddress) {
+      setAccountAddress(accounts[0].address);
     }
   }, [accounts, accountAddress]);
 
-  useEffect(() => {
-    (async () => {
-      if (!waterBearStakeId) return;
-      const gatewayApi = GatewayApiClient.initialize({
-        networkId: RadixNetwork.Stokenet,
-        applicationName: "WaterBears",
-      });
-      const { state } = gatewayApi;
-      const res = await state.getNonFungibleData(
-        config.addresses.waterBearStakeIdResource,
-        waterBearStakeId
-      );
-      setStakedNftIds(
-        res.data.programmatic_json.fields[1].elements.map((x) => x.value)
-      );
-      setStakeData(res.data.programmatic_json.fields);
-      setStakedNftIds(
-        res.data.programmatic_json.fields[1].elements.map((x) => x.value)
-      );
-    })();
+  const account = accounts.find((account) => account.address == accountAddress);
+
+  const unstakedNftIds = useMemo(() => {
+    if (!account) return [];
+    let nfts = account.nonFungibleTokens[config.addresses.waterBearResource];
+    return nfts ? nfts.map((x) => x.id) : [];
+  }, [account]);
+
+  const waterBearStakeId = useMemo(() => {
+    try {
+      if (!account) return null;
+      return account.nonFungibleTokens[
+        config.addresses.waterBearStakeIdResource
+      ][0].id;
+    } catch (err) {
+      return null;
+    }
+  }, [account]);
+
+  const getStakedWaterBears = useCallback(async () => {
+    if (!waterBearStakeId) return;
+    const gatewayApi = GatewayApiClient.initialize({
+      networkId: RadixNetwork.Stokenet,
+      applicationName: "WaterBears",
+    });
+    const { state } = gatewayApi;
+    const res = await state.getNonFungibleData(
+      config.addresses.waterBearStakeIdResource,
+      waterBearStakeId
+    );
+    setStakedNftIds(
+      res.data.programmatic_json.fields[1].elements.map((x) => x.value)
+    );
+    setStakeData(res.data.programmatic_json.fields);
+    setStakedNftIds(
+      res.data.programmatic_json.fields[1].elements.map((x) => x.value)
+    );
   }, [waterBearStakeId]);
+
+  useEffect(() => {
+    getStakedWaterBears();
+  }, [getStakedWaterBears]);
 
   const nfts = useMemo(() => {
     if (!unstakedNftIds || !stakedNftIds) return null;
@@ -95,6 +98,11 @@ const Stake = () => {
     return 0;
   }, [stakeData]);
   // const globalStakePercent = 85;
+
+  const reload = useCallback(() => {
+    getStakedWaterBears();
+    refresh();
+  }, [getStakedWaterBears, refresh]);
 
   const { createStakingId, claimRewards } = useSendTransactionManifest()();
 
@@ -159,7 +167,7 @@ const Stake = () => {
                     onClick={() => {
                       createStakingId({
                         accountAddress,
-                      });
+                      }).then(() => reload());
                     }}
                   >
                     Create Staking ID
@@ -182,7 +190,9 @@ const Stake = () => {
                     className="w-full h-[44px] bg-white text-[#42bfe8] text-[20px] flex justify-center items-center rounded-lg"
                     style={{ zIndex: 2 }}
                     onClick={() =>
-                      claimRewards({ accountAddress, waterBearStakeId })
+                      claimRewards({ accountAddress, waterBearStakeId }).then(
+                        () => reload()
+                      )
                     }
                   >
                     Claim Reward
@@ -215,9 +225,10 @@ const Stake = () => {
                   <Card
                     accountAddress={accountAddress}
                     waterBearStakeId={waterBearStakeId}
-                    key={nft.id}
+                    key={`${nft.id}-${nft.staked}`}
                     id={nft.id}
                     staked={nft.staked}
+                    reload={reload}
                   />
                 ))}
               </div>

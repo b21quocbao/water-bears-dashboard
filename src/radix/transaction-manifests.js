@@ -1,11 +1,11 @@
 export const TransactionManifests = ({
-  waterBearComponent,
-  stakePoolComponent,
-  waterBearResource,
-  waterBearStakeIdResource
+    waterBearComponent,
+    stakePoolComponent,
+    waterBearResource,
+    waterBearStakeIdResource
 }) => {
-  const buyWaterBear = ({ accountAddress, xrdAddress, amount }) => {
-    const transactionManifest = `
+    const buyWaterBear = ({ accountAddress, xrdAddress, amount }) => {
+        const transactionManifest = `
     CALL_METHOD
         Address("${accountAddress}")
         "withdraw"
@@ -14,14 +14,14 @@ export const TransactionManifests = ({
     ;
     ${Array.apply(null, Array(amount)).map((_, i) => `
     TAKE_FROM_WORKTOP
-      Address("${xrdAddress}")
-      Decimal("250")
-      Bucket("nft_bucket_${i}")
+        Address("${xrdAddress}")
+        Decimal("250")
+        Bucket("nft_bucket_${i}")
     ;
     CALL_METHOD
-      Address("${waterBearComponent}")
-      "buy_nft"
-      Bucket("nft_bucket_${i}")
+        Address("${waterBearComponent}")
+        "buy_nft"
+        Bucket("nft_bucket_${i}")
     ;
     `).join('')}
     CALL_METHOD
@@ -30,12 +30,12 @@ export const TransactionManifests = ({
         Expression("ENTIRE_WORKTOP")
     ;
     `
-    console.log(transactionManifest)
-    return transactionManifest
-  }
+        console.log(transactionManifest)
+        return transactionManifest
+    }
 
-  const stakeWaterBear = ({ accountAddress, id, waterBearStakeId }) => {
-    const transactionManifest = `
+    const stakeWaterBear = ({ accountAddress, id, waterBearStakeId }) => {
+        const transactionManifest = `
     CALL_METHOD
         Address("${accountAddress}")
         "create_proof_of_non_fungibles"
@@ -66,12 +66,12 @@ export const TransactionManifests = ({
         Proof("proof_1")
     ;
     `
-    console.log(transactionManifest)
-    return transactionManifest
-  }
+        console.log(transactionManifest)
+        return transactionManifest
+    }
 
-  const withdrawWaterBear = ({ accountAddress, id, waterBearStakeId }) => {
-    const transactionManifest = `
+    const withdrawWaterBear = ({ accountAddress, id, waterBearStakeId }) => {
+        const transactionManifest = `
     CALL_METHOD
         Address("${accountAddress}")
         "create_proof_of_non_fungibles"
@@ -95,12 +95,12 @@ export const TransactionManifests = ({
         Expression("ENTIRE_WORKTOP")
     ;
     `
-    console.log(transactionManifest)
-    return transactionManifest
-  }
+        console.log(transactionManifest)
+        return transactionManifest
+    }
 
-  const claimRewards = ({ accountAddress, waterBearStakeId }) => {
-    const transactionManifest = `
+    const claimRewards = ({ accountAddress, waterBearStakeId }) => {
+        const transactionManifest = `
     CALL_METHOD
         Address("${accountAddress}")
         "create_proof_of_non_fungibles"
@@ -123,12 +123,12 @@ export const TransactionManifests = ({
         Expression("ENTIRE_WORKTOP")
     ;
     `
-    console.log(transactionManifest)
-    return transactionManifest
-  }
+        console.log(transactionManifest)
+        return transactionManifest
+    }
 
-  const createStakingId = ({ accountAddress }) => {
-    const transactionManifest = `
+    const createStakingId = ({ accountAddress }) => {
+        const transactionManifest = `
     CALL_METHOD
         Address("${stakePoolComponent}")
         "create_id"
@@ -139,9 +139,9 @@ export const TransactionManifests = ({
         Expression("ENTIRE_WORKTOP")
     ;
     `
-    console.log(transactionManifest)
-    return transactionManifest
-  }
+        console.log(transactionManifest)
+        return transactionManifest
+    }
 
-  return { buyWaterBear, stakeWaterBear, claimRewards, withdrawWaterBear, createStakingId }
+    return { buyWaterBear, stakeWaterBear, claimRewards, withdrawWaterBear, createStakingId }
 }

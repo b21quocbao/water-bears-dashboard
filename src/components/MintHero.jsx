@@ -43,11 +43,11 @@ export const MintHero = ({ selectedAccountAddress }) => {
             <div className="hero-mint-box">
               <h3 className="hero-mint-box-title">Mint</h3>
               <p className="hero-mint-box-text">
-                The price is 0.08eth ETH + Gas fee
+                The price is 250 XRD
               </p>
               <div className="hero-mint-field">
                 <div className="hero-mint-total">
-                  <span>{count}</span>/<span>10,000</span>
+                  <span>{count}</span>/<span>3,333</span>
                 </div>
                 <div className="hero-mint-no-field">
                   <button className="hero-mint-no-less" onClick={decrement}>
