@@ -201,7 +201,7 @@ const Stake = () => {
               </div>
             </div>
 
-            <div className="w-full md:w-[858px] gap-[40px] flex flex-col mb-20">
+            <div className="w-full md:w-[860px] gap-[40px] flex flex-col mb-20">
               <div className="w-full flex flex-col md:flex-row justify-between">
                 {/* <div className="w-[305px] gap-[29px] flex flex-row md:mx-0 mx-auto mb-10 md:mb-0">
                   <button className="w-[137px] h-[44px] rounded-lg flex items-center justify-center bg-[#42BFE8] text-[20px]">
@@ -220,7 +220,7 @@ const Stake = () => {
               </div>
 
               {/* Cards  */}
-              <div className="w-full flex flex-col md:flex-row gap-[20px]">
+              <div className="w-full flex flex-col md:flex-row gap-[20px]" style={{flexWrap: "wrap" }}>
                 {(nfts || []).map((nft) => (
                   <Card
                     accountAddress={accountAddress}

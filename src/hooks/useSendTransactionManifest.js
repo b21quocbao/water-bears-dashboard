@@ -36,6 +36,11 @@ export const useSendTransactionManifest = () => {
         sendTransaction(
           transactionManifests.createStakingId(input),
           "Your staking ID have been successfully created. Thank you!"
+        ),
+      buyTestTube: input =>
+        sendTransaction(
+          transactionManifests.buyTestTube(input),
+          "Thank you for breeding!"
         )
     }),
     [sendTransaction, transactionManifests, xrdAddress]

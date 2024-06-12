@@ -10,13 +10,17 @@ const networkConfig = {
       'account_rdx12x2n7jr3cg5dduen9e9sshlkw7uz962jr05erlcxp56pkt04rzv476',
     addresses: {
       waterBearComponent:
-        'component_rdx1cz8sufk6wunsnnnh5ckrhrn3n6stl4ve6dctrphaa8zf3q06kle6hv',
+        'component_tdx_2_1crlhtxmur02mz25ly9g682z00daxw0nrlkr6vj0jccdntpkrg4r5ap',
       waterBearStakeIdResource:
-        'resource_rdx1ngzqt45zkhrrhetevsuhhnp09fvh6sa86gfskx7wekme7qntg87yrm',
+        'resource_tdx_2_1n2vxkq7vp9fkmg3y9jvz2g799q6xqd534ypv5t0lk5clsmctdkjnv7',
       stakePoolComponent:
-        'component_rdx1cz8sufk6wunsnnnh5ckrhrn3n6stl4ve6dctrphaa8zf3q06kle6hv',
+        'component_tdx_2_1cpum0hydfllv5r9ar48qwc0tctpz806yg8k9rhukgmtt5y38ku7xg4',
       waterBearResource:
-        'resource_rdx1ngzqt45zkhrrhetevsuhhnp09fvh6sa86gfskx7wekme7qntg87yrm',
+        'resource_tdx_2_1n2k6qtnlvl65dhhlf45sjn5uwzxmf7ny9qnezv7v8c47pyhvtua7y9',
+      dnaResource:
+        'resource_tdx_2_1th9lefh8vkxc428kthlneedvrytvnxcm20hgjrhjts0sklc650j0z5',
+      testTubeComponent:
+        'component_tdx_2_1cqcdpckfc5h9ym9wtwp3wr6tkys0cckw6eap3qawur5fv5wn8hak65',
     },
   },
   Stokenet: {
@@ -24,13 +28,17 @@ const networkConfig = {
       'account_tdx_2_12yuarmrpvd9kkl99qqk6czw8xf6rzg6h80nf7xa7gdf0fegk49a30s',
     addresses: {
       waterBearComponent:
-        'component_tdx_2_1cqh6ktv53ktlq9fcjwmerh55jee86qyg23w9avfl6vk04nmlzqlc7g',
+        'component_tdx_2_1crlhtxmur02mz25ly9g682z00daxw0nrlkr6vj0jccdntpkrg4r5ap',
       waterBearStakeIdResource:
-        'resource_tdx_2_1nfk3devv4zat0dgn0q00v9fe0ggpmkuaeq8wtzl662m60wuvs59dml',
+        'resource_tdx_2_1n2vxkq7vp9fkmg3y9jvz2g799q6xqd534ypv5t0lk5clsmctdkjnv7',
       stakePoolComponent:
-        'component_tdx_2_1cz5wzsgmcwwhx4vl5e70jtenjn9mf28hyxn8ung2kwmlkdutttl5s2',
+        'component_tdx_2_1cpum0hydfllv5r9ar48qwc0tctpz806yg8k9rhukgmtt5y38ku7xg4',
       waterBearResource:
-        'resource_tdx_2_1n2khts5x5l632l9ehtm0724erlh8rmch0xu7fq5q8mrfcsftnkvj89',
+        'resource_tdx_2_1n2k6qtnlvl65dhhlf45sjn5uwzxmf7ny9qnezv7v8c47pyhvtua7y9',
+      dnaResource:
+        'resource_tdx_2_1th9lefh8vkxc428kthlneedvrytvnxcm20hgjrhjts0sklc650j0z5',
+      testTubeComponent:
+        'component_tdx_2_1cqcdpckfc5h9ym9wtwp3wr6tkys0cckw6eap3qawur5fv5wn8hak65',
     },
   },
 }[network.networkName]
