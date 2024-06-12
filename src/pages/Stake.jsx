@@ -21,6 +21,7 @@ const Stake = () => {
     refresh,
   } = useAccounts();
   const [accountAddress, setAccountAddress] = useState("");
+  const [globalNftCount, setGlobalNftCount] = useState("--");
 
   useEffect(() => {
     if (accounts && accounts[0] && !accountAddress) {
@@ -67,9 +68,25 @@ const Stake = () => {
     );
   }, [waterBearStakeId]);
 
+  const getAllStakedWaterBears = useCallback(async () => {
+    const gatewayApi = GatewayApiClient.initialize({
+      networkId: RadixNetwork.Stokenet,
+      applicationName: "WaterBears",
+    });
+    const { state } = gatewayApi;
+    const res = await state.getEntityDetailsVaultAggregated(
+      config.addresses.stakePoolComponent,
+    );
+    setGlobalNftCount(parseInt(res.details.state.fields[1].value))
+  }, []);
+
   useEffect(() => {
     getStakedWaterBears();
   }, [getStakedWaterBears]);
+
+  useEffect(() => {
+    getAllStakedWaterBears();
+  }, [getAllStakedWaterBears]);
 
   const nfts = useMemo(() => {
     if (!unstakedNftIds || !stakedNftIds) return null;
@@ -101,8 +118,9 @@ const Stake = () => {
 
   const reload = useCallback(() => {
     getStakedWaterBears();
+    getAllStakedWaterBears();
     refresh();
-  }, [getStakedWaterBears, refresh]);
+  }, [getStakedWaterBears, getAllStakedWaterBears, refresh]);
 
   const { createStakingId, claimRewards } = useSendTransactionManifest()();
 
@@ -135,7 +153,7 @@ const Stake = () => {
                 <h1 className="text-[18px] font-[400]">
                   Global Of Water Bears Staked
                 </h1>
-                <p className="text-[28px]">--</p>
+                <p className="text-[28px]">{globalNftCount}</p>
               </div>
 
               <div className="w-[202px] gap-[8px] text-center">

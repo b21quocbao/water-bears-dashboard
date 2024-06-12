@@ -30,9 +30,9 @@ const networkConfig = {
       waterBearComponent:
         'component_tdx_2_1crlhtxmur02mz25ly9g682z00daxw0nrlkr6vj0jccdntpkrg4r5ap',
       waterBearStakeIdResource:
-        'resource_tdx_2_1n2vxkq7vp9fkmg3y9jvz2g799q6xqd534ypv5t0lk5clsmctdkjnv7',
+        'resource_tdx_2_1ntr9s8ea8m6k5dqe6hlw8wh9cl9vpjf37me7upsc33paws5s9j6hug',
       stakePoolComponent:
-        'component_tdx_2_1cpum0hydfllv5r9ar48qwc0tctpz806yg8k9rhukgmtt5y38ku7xg4',
+        'component_tdx_2_1crqntmap3fztduqaxug0ne3xzwd2mpf2yn9uvp9y65jaslz8jvjz0v',
       waterBearResource:
         'resource_tdx_2_1n2k6qtnlvl65dhhlf45sjn5uwzxmf7ny9qnezv7v8c47pyhvtua7y9',
       dnaResource:

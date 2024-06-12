@@ -1,12 +1,34 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import HeroLeftDecorator from "../assets/images/hero-left-decorator.png";
 import HeroRightDecorator from "../assets/images/hero-right-decorator.png";
 import { useSendTransactionManifest } from "../hooks/useSendTransactionManifest";
+import {
+  GatewayApiClient,
+  RadixNetwork,
+} from "@radixdlt/babylon-gateway-api-sdk";
+import { config } from "../config";
 
 export const MintHero = ({ selectedAccountAddress }) => {
   const [count, setCount] = useState(0);
+  const [minted, setMinted] = useState("--");
 
   const { buyWaterBear } = useSendTransactionManifest()();
+
+  const getMintedCount = useCallback(async () => {
+    const gatewayApi = GatewayApiClient.initialize({
+      networkId: RadixNetwork.Stokenet,
+      applicationName: "WaterBears",
+    });
+    const { state } = gatewayApi;
+    const res = await state.getEntityDetailsVaultAggregated(
+      config.addresses.waterBearComponent
+    );
+    setMinted(parseInt(res.details.state.fields[2].elements.length));
+  }, []);
+
+  useEffect(() => {
+    getMintedCount();
+  }, [getMintedCount]);
 
   const increment = () => {
     setCount((prevCount) => Math.min(prevCount + 1, 20)); // Limit to 20
@@ -42,12 +64,10 @@ export const MintHero = ({ selectedAccountAddress }) => {
             </p>
             <div className="hero-mint-box">
               <h3 className="hero-mint-box-title">Mint</h3>
-              <p className="hero-mint-box-text">
-                The price is 250 XRD
-              </p>
+              <p className="hero-mint-box-text">The price is 250 XRD</p>
               <div className="hero-mint-field">
                 <div className="hero-mint-total">
-                  <span>{count}</span>/<span>3,333</span>
+                  <span>{minted}</span>/<span>3,333</span>
                 </div>
                 <div className="hero-mint-no-field">
                   <button className="hero-mint-no-less" onClick={decrement}>
