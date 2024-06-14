@@ -12,7 +12,7 @@ export const TransactionManifests = ({
         Address("${accountAddress}")
         "withdraw"
         Address("${xrdAddress}")
-        Decimal("${250 * amount}")
+        Decimal("${45 * amount}")
     ;
     TAKE_ALL_FROM_WORKTOP
         Address("${xrdAddress}")
