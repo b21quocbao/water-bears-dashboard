@@ -64,7 +64,7 @@ export const MintHero = ({ selectedAccountAddress }) => {
             </p>
             <div className="hero-mint-box">
               <h3 className="hero-mint-box-title">Mint</h3>
-              <p className="hero-mint-box-text">The price is 250 XRD</p>
+              <p className="hero-mint-box-text">The price is 45 XRD</p>
               <div className="hero-mint-field">
                 <div className="hero-mint-total">
                   <span>{minted}</span>/<span>3,333</span>
