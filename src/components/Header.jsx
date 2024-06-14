@@ -52,11 +52,10 @@ const Header = ({ selectedAccountAddress, setSelectedAccountAddress }) => {
             </a>
           </nav>
           <div className="header-socials">
-            {!accounts.length ? (
-              <div className={styles["radix-connect-button"]}>
-                <radix-connect-button ref={ref} />
-              </div>
-            ) : (
+            <div className={styles["radix-connect-button"]}>
+              <radix-connect-button ref={ref} />
+            </div>
+            {accounts.length ? (
               <AccountPicker
                 accounts={accounts}
                 selected={selectedAccountAddress}
@@ -64,6 +63,8 @@ const Header = ({ selectedAccountAddress, setSelectedAccountAddress }) => {
                   setSelectedAccountAddress(selectedAccountAddress)
                 }
               />
+            ) : (
+              <></>
             )}
             {/* <button
               onClick={handleConnectClick}
