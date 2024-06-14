@@ -51,7 +51,7 @@ const Stake = () => {
   const getStakedWaterBears = useCallback(async () => {
     if (!waterBearStakeId) return;
     const gatewayApi = GatewayApiClient.initialize({
-      networkId: RadixNetwork.Stokenet,
+      networkId: RadixNetwork.Mainnet,
       applicationName: "WaterBears",
     });
     const { state } = gatewayApi;
@@ -70,7 +70,7 @@ const Stake = () => {
 
   const getAllStakedWaterBears = useCallback(async () => {
     const gatewayApi = GatewayApiClient.initialize({
-      networkId: RadixNetwork.Stokenet,
+      networkId: RadixNetwork.Mainnet,
       applicationName: "WaterBears",
     });
     const { state } = gatewayApi;

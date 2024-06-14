@@ -16,7 +16,7 @@ export const MintHero = ({ selectedAccountAddress }) => {
 
   const getMintedCount = useCallback(async () => {
     const gatewayApi = GatewayApiClient.initialize({
-      networkId: RadixNetwork.Stokenet,
+      networkId: RadixNetwork.Mainnet,
       applicationName: "WaterBears",
     });
     const { state } = gatewayApi;
