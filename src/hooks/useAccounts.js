@@ -1,31 +1,33 @@
-import { useCallback, useEffect, useState } from "react"
-import { useDappToolkit } from "./useDappToolkit"
-import { switchMap, map } from "rxjs"
+import { useCallback, useEffect, useState } from "react";
+import { useDappToolkit } from "./useDappToolkit";
+import { switchMap, map } from "rxjs";
 import {
   transformFungibleTokens,
-  transformNonFungibleTokens
-} from "../transformers/addTokens"
+  transformNonFungibleTokens,
+} from "../transformers/addTokens";
 
-const useWithTokens = stateApi => {
+const useWithTokens = (stateApi) => {
   return useCallback(
-    accounts =>
+    (accounts) =>
       stateApi
         .getEntityDetailsVaultAggregated(
-          accounts.map(account => account.address)
+          accounts.map((account) => account.address)
         )
-        .then(data =>
+        .then((data) =>
           Promise.all(
-            data.map(item =>
+            data.map((item) =>
               transformFungibleTokens(item?.fungible_resources)
-                .then(fungibleTokens => ({
-                  ...accounts.find(account => account.address === item.address),
-                  fungibleTokens
+                .then((fungibleTokens) => ({
+                  ...accounts.find(
+                    (account) => account.address === item.address
+                  ),
+                  fungibleTokens,
                 }))
-                .then(values =>
+                .then((values) =>
                   transformNonFungibleTokens(item?.non_fungible_resources).then(
-                    nonFungibleTokens => ({
+                    (nonFungibleTokens) => ({
                       ...values,
-                      nonFungibleTokens
+                      nonFungibleTokens,
                     })
                   )
                 )
@@ -33,56 +35,56 @@ const useWithTokens = stateApi => {
           )
         ),
     [stateApi]
-  )
-}
+  );
+};
 
 export const useAccounts = () => {
-  const dAppToolkit = useDappToolkit()
+  const dAppToolkit = useDappToolkit();
   const [state, setState] = useState({
     accounts: [],
     status: "pending",
-    hasLoaded: false
-  })
+    hasLoaded: false,
+  });
 
-  const withTokens = useWithTokens(dAppToolkit.gatewayApi.state)
+  const withTokens = useWithTokens(dAppToolkit.gatewayApi.state);
 
   useEffect(() => {
     const subscription = dAppToolkit.walletApi.walletData$
       .pipe(
-        map(walletData => walletData.accounts),
-        switchMap(accounts => {
-          setState(prev => ({ ...prev, status: "pending" }))
+        map((walletData) => walletData.accounts),
+        switchMap((accounts) => {
+          setState((prev) => ({ ...prev, status: "pending" }));
           return withTokens(accounts)
-            .then(accounts => {
+            .then((accounts) => {
               setState({
                 accounts,
                 status: "success",
-                hasLoaded: true
-              })
+                hasLoaded: true,
+              });
             })
             .catch(() => {
-              setState({ accounts: [], status: "error", hasLoaded: true })
-            })
+              setState({ accounts: [], status: "error", hasLoaded: true });
+            });
         })
       )
-      .subscribe()
+      .subscribe();
 
     return () => {
-      subscription.unsubscribe()
-    }
-  }, [dAppToolkit, withTokens, setState])
+      subscription.unsubscribe();
+    };
+  }, [dAppToolkit, withTokens, setState]);
 
   return {
     state,
     refresh: useCallback(() => {
-      setState(prev => ({ ...prev, status: "pending" }))
+      setState((prev) => ({ ...prev, status: "pending" }));
       return withTokens(state.accounts)
-        .then(accounts => {
-          setState({ accounts, status: "success", hasLoaded: true })
+        .then((accounts) => {
+          setState({ accounts, status: "success", hasLoaded: true });
         })
         .catch(() => {
-          setState({ accounts: [], status: "error", hasLoaded: true })
-        })
-    }, [state.accounts, withTokens])
-  }
-}
+          setState({ accounts: [], status: "error", hasLoaded: true });
+        });
+    }, [state.accounts, withTokens]),
+  };
+};
