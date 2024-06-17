@@ -275,13 +275,17 @@ const Stake = () => {
                       onChange={(e) => {
                         setSort(e.target.checked ? "rank" : "base");
                       }}
+                      id="checked-demo"
                       type="checkbox"
                       name="checked-demo"
                       className="form-tick appearance-none bg-white bg-check h-6 w-6 border border-gray-300 rounded-md checked:bg-[#42bfe8] checked:border-transparent focus:outline-none"
                     />
-                    <span className="font-normal text-gray-700 dark:text-white">
+                    <label
+                      htmlFor="checked-demo"
+                      className="font-normal text-gray-700 dark:text-white"
+                    >
                       Sort by rank
-                    </span>
+                    </label>
                   </div>
 
                   <div className="flex items-center gap-2">
