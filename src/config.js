@@ -26,7 +26,7 @@ const networkConfig = {
         'resource_rdx1th9txt2hxdlc740ypf9uj8ghgwwmhf7wdnxafhxa3uxmmus56nusxs',
 
       testTubeComponent:
-        'component_rdx1cztegh0j733zgv452uhe4avthvxu5ld00fer77awt05a87h98zkkn8',
+        'component_rdx1cp0yra6p000xhwf0eyd3aa8pdyyqgqjcrvq4rkkh76h22su6z2j9p9',
     },
   },
   Stokenet: {

@@ -54,7 +54,9 @@ export const TransactionManifests = ({
         "withdraw_non_fungibles"
         Address("${waterBearResource}")
         Array<NonFungibleLocalId>(
-            NonFungibleLocalId("${id}")
+${id.map(x => `
+            NonFungibleLocalId("${x}"),
+`).join('')}
         )
     ;
     TAKE_ALL_FROM_WORKTOP
@@ -91,7 +93,7 @@ export const TransactionManifests = ({
         Array<NonFungibleLocalId>(
 ${id.map(x => `
             NonFungibleLocalId("${x}"),
-`)}
+`).join('')}
         )
         Proof("proof_1")
     ;
