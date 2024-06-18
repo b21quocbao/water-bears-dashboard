@@ -47,7 +47,9 @@ const Header = ({ selectedAccountAddress, setSelectedAccountAddress }) => {
             <a href="/breed" className="header-navlink">
               Breed
             </a>
-           
+            <a href="/rarity" className="header-navlink">
+              Rarity
+            </a>
             <a href="/stake" className="header-navlink">
               Stake
             </a>

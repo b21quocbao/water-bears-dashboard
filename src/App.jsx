@@ -13,6 +13,7 @@ import Mint from "./pages/Mint";
 import NoMatch from "./pages/NoMatch";
 import Stake from "./pages/Stake";
 import { RadixProvider } from "./radix/RadixProvider";
+import RarityPage from "./pages/RarityPage";
 
 function App() {
   const [state, setState] = useState();
@@ -46,6 +47,7 @@ function App() {
           <Route path="/mint" element={<Mint />} />
           <Route path="*" element={<NoMatch />} />
           <Route path="/breed" element={<Breed />} />
+          <Route path="/rarity" element={<RarityPage />} />
           <Route path="/stake" element={<Stake />} />
         </Routes>
       </RadixProvider>

@@ -58,8 +58,21 @@ export const getRarityForWaterBear = (data, waterBearName) => {
 };
 
 export const extractNumber = (str) => {
-  const match = str.match(/_(\d+)>/);
-  return match ? parseInt(match[1], 10) : null;
+  const match = str.match(/#(\d+)/);
+
+  if (match) {
+    const number = parseInt(match[1], 10);
+    return number;
+  } else {
+    const match = str.match(/_(\d+)>/);
+
+    if (match) {
+      const number = parseInt(match[1], 10);
+      return number;
+    } else {
+      return null;
+    }
+  }
 };
 
 export const getAllAttributes = (data) => {
