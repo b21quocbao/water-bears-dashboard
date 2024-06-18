@@ -24,8 +24,12 @@ const RarityPage = () => {
     refresh,
   } = useAccounts();
   const [accountAddress, setAccountAddress] = useState("");
-
+  const [search, setSearch] = useState("");
   const [showRarity, setShowRarity] = useState(false);
+
+  const fitleredNfts = useMemo(() => {
+    return nfts.filter((nft) => nft.name.includes(search));
+  }, [nfts, search]);
 
   return (
     <>
@@ -53,7 +57,16 @@ const RarityPage = () => {
           <div className="w-full md:w-[858px] gap-[93px] flex flex-col">
             <div className="w-full md:w-[860px] gap-[40px] flex flex-col mb-20">
               <div className="w-full flex flex-col md:flex-row justify-between">
-                <div className="flex flex-col justify-end w-full md:flex-row my-5 md:my-0 mx-auto md:mx-0">
+                <div className="flex flex-col justify-between w-full md:flex-row my-5 md:my-0 mx-auto md:mx-0">
+                  <input
+                    type="text"
+                    value={search}
+                    className="text-black p-2 rounded"
+                    placeholder="Filter by id"
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                    }}
+                  ></input>
                   <div className="flex justify-end items-center gap-2">
                     <p>Show rarity</p>
                     <div className="relative inline-block w-10 mr-2 align-middle select-none">
@@ -82,7 +95,7 @@ const RarityPage = () => {
                 className="w-full flex flex-col md:flex-row gap-[20px]"
                 style={{ flexWrap: "wrap" }}
               >
-                {(nfts || []).map((nft) => {
+                {(fitleredNfts || []).map((nft) => {
                   return (
                     <Card
                       hideStake
