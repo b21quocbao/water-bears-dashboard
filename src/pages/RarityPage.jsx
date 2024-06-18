@@ -85,13 +85,13 @@ const RarityPage = () => {
                 {(nfts || []).map((nft) => {
                   return (
                     <Card
+                      hideStake
                       rank={nft.rank}
                       rarity={nft.rarity}
                       showRarity={showRarity}
                       accountAddress={accountAddress}
                       key={`${nft.name}`}
-                      id={extractNumber(nft.name)}
-                      staked={nft.staked}
+                      id={nft.name}
                     />
                   );
                 })}

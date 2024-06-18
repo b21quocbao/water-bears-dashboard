@@ -1,3 +1,4 @@
+import { extractNumber } from "../helpers/rarity";
 import { useSendTransactionManifest } from "../hooks/useSendTransactionManifest";
 
 const Card = ({
@@ -8,6 +9,7 @@ const Card = ({
   reload,
   showRarity,
   rarity,
+  hideStake,
   rank,
 }) => {
   const { stakeWaterBear, withdrawWaterBear } = useSendTransactionManifest()();
@@ -16,12 +18,14 @@ const Card = ({
     <div className="flex flex-col gap-[8px] w-[200px] mx-auto md:mx-0 bg-[#2B2B2B] pb-3 rounded-lg">
       <img
         className="w-full rounded-tr-lg rounded-tl-lg"
-        src={`https://water-bears.s3.amazonaws.com/waterbears-%23${id}.png`}
+        src={`https://water-bears.s3.amazonaws.com/waterbears-%23${extractNumber(
+          id
+        )}.png`}
         alt=""
       />
       <div className="flex flex-col w-[176px] gap-[20px] mx-auto">
         <div className="w-full gap-[12px]">
-          <h1 className="text-[22px]">Water Bears #{id}</h1>
+          <h1 className="text-[22px]">Water Bears #{extractNumber(id)}</h1>
           {showRarity && (
             <ul className="bg-gray-700 p-2 rounded mt-2 divide divide-y">
               {Object.keys(rarity).map((key) => {
@@ -51,37 +55,29 @@ const Card = ({
               </li>
             </ul>
           )}
-          {/* <div className="w-full gap-[8px]">
-            <div className="flex flex-row justify-between">
-              <p className="text-[16px]">Staked On</p>
-              <p className="text-[16px]">----</p>
-            </div>
-            <div className="flex flex-row justify-between">
-              <p className="text-[16px]">Unlocks On</p>
-              <p className="text-[16px]">----</p>
-            </div>
-          </div> */}
         </div>
-        <button
-          className="w-full h-[34px] rounded-lg flex justify-center items-center bg-[#42bfe8]"
-          onClick={() => {
-            if (staked) {
-              withdrawWaterBear({
-                accountAddress,
-                id,
-                waterBearStakeId,
-              }).then(reload);
-            } else {
-              stakeWaterBear({
-                accountAddress,
-                id,
-                waterBearStakeId,
-              }).then(reload);
-            }
-          }}
-        >
-          {staked ? "Unstake" : "Stake"}
-        </button>
+        {!hideStake && (
+          <button
+            className="w-full h-[34px] rounded-lg flex justify-center items-center bg-[#42bfe8]"
+            onClick={() => {
+              if (staked) {
+                withdrawWaterBear({
+                  accountAddress,
+                  id,
+                  waterBearStakeId,
+                }).then(reload);
+              } else {
+                stakeWaterBear({
+                  accountAddress,
+                  id,
+                  waterBearStakeId,
+                }).then(reload);
+              }
+            }}
+          >
+            {staked ? "Unstake" : "Stake"}
+          </button>
+        )}
       </div>
     </div>
   );

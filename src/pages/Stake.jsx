@@ -329,7 +329,7 @@ const Stake = () => {
                       accountAddress={accountAddress}
                       waterBearStakeId={waterBearStakeId}
                       key={`${nft.id}-${nft.staked}`}
-                      id={extractNumber(nft.id)}
+                      id={nft.id}
                       staked={nft.staked}
                       reload={reload}
                     />
