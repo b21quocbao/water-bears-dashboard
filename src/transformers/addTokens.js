@@ -21,6 +21,7 @@ export const transformFungibleTokens = async fungibles => {
 }
 
 export const transformNonFungibleTokens = async nonFungibles => {
+
   if (!nonFungibles || nonFungibles.items.length === 0) {
     return []
   }

@@ -1,5 +1,4 @@
 import Card from "../components/Card";
-import { FaChevronDown } from "react-icons/fa";
 import heroLeftImg from "../assets/images/hero-left-decorator-removebg-preview.png";
 import heroRightImg from "../assets/images/hero-right-decorator-removebg-preview.png";
 import Header from "../components/Header";
@@ -9,13 +8,36 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAccounts } from "../hooks/useAccounts";
 import { config } from "../config";
 import {
+  calculateRarityAcrossAll,
+  calculateRarityValueForAll,
+  encodeName,
+  extractNumber,
+  getAllAttributes,
+  getRankForWaterBearInSortedRarity,
+  getRarityForWaterBear,
+} from "../helpers/rarity";
+import waterBears from "../2645435.json";
+import {
   GatewayApiClient,
   RadixNetwork,
 } from "@radixdlt/babylon-gateway-api-sdk";
 
 const Stake = () => {
+  const allAttributes = useMemo(() => {
+    return getAllAttributes(waterBears);
+  }, [waterBears]);
+  const rarityPercentages = useMemo(() => {
+    return calculateRarityAcrossAll(waterBears, allAttributes);
+  }, [allAttributes, waterBears]);
+
+  const allRarity = useMemo(() => {
+    return calculateRarityValueForAll(waterBears, rarityPercentages);
+  }, [rarityPercentages, waterBears]);
+
   const [stakedNftIds, setStakedNftIds] = useState(null);
   const [stakeData, setStakeData] = useState(null);
+  const [showRarity, setShowRarity] = useState(false);
+  const [sort, setSort] = useState("base");
   const {
     state: { accounts },
     refresh,
@@ -33,6 +55,7 @@ const Stake = () => {
 
   const unstakedNftIds = useMemo(() => {
     if (!account) return [];
+
     let nfts = account.nonFungibleTokens[config.addresses.waterBearResource];
     return nfts ? nfts.map((x) => x.id) : [];
   }, [account]);
@@ -172,6 +195,22 @@ const Stake = () => {
     refresh,
   ]);
 
+  const sortedNFTs = nfts
+    ?.map((nft) => {
+      return {
+        ...nft,
+        rank: getRankForWaterBearInSortedRarity(
+          allRarity,
+          encodeName(`WaterBears #${extractNumber(nft.id)}`)
+        ),
+      };
+    })
+    .sort((a, b) => {
+      if (sort === "rank") {
+        return a.rank - b.rank;
+      }
+    });
+
   return (
     <>
       <Header
@@ -269,11 +308,45 @@ const Stake = () => {
 
             <div className="w-full md:w-[860px] gap-[20px] flex flex-col mb-20">
               <div className="w-full flex flex-col md:flex-row justify-between">
-                <div className="flex flex-col md:flex-row my-5 md:my-0 mx-auto md:mx-0">
-                  <button className="w-[119px] h-[44px] rounded-lg flex items-center justify-center bg-[#2B2B2B] text-[20px] text-white text-opacity-70 border-[1px] border-white gap-[10px]">
-                    <h1>Sort By</h1>
-                    <FaChevronDown className="size-[20px]" />
-                  </button>
+                <div className="flex flex-col justify-between w-full md:flex-row my-5 md:my-0 mx-auto md:mx-0">
+                  <div className="flex items-center gap-2">
+                    <input
+                      checked={sort === "rank"}
+                      onChange={(e) => {
+                        setSort(e.target.checked ? "rank" : "base");
+                      }}
+                      id="checked-demo"
+                      type="checkbox"
+                      name="checked-demo"
+                      className="form-tick appearance-none bg-white bg-check h-6 w-6 border border-gray-300 rounded-md checked:bg-[#42bfe8] checked:border-transparent focus:outline-none"
+                    />
+                    <label
+                      htmlFor="checked-demo"
+                      className="font-normal text-gray-700 dark:text-white"
+                    >
+                      Sort by rank
+                    </label>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <p>Show rarity</p>
+                    <div className="relative inline-block w-10 mr-2 align-middle select-none">
+                      <input
+                        checked={showRarity}
+                        onChange={(e) => {
+                          setShowRarity(e.target.checked);
+                        }}
+                        type="checkbox"
+                        name="toggle"
+                        id="Blue"
+                        className="checked:bg-[#42bfe8] outline-none focus:outline-none right-4 checked:right-0 duration-200 ease-in absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                      />
+                      <label
+                        htmlFor="Blue"
+                        className="block h-6 overflow-hidden bg-gray-600 rounded-full cursor-pointer"
+                      ></label>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -351,16 +424,28 @@ const Stake = () => {
                     className="w-full flex flex-col md:flex-row gap-[20px]"
                     style={{ flexWrap: "wrap" }}
                   >
-                    {(unstakedNftIds || []).map((nft) => (
-                      <Card
-                        accountAddress={accountAddress}
-                        waterBearStakeId={waterBearStakeId}
-                        key={`${nft}`}
-                        id={nft}
-                        staked={false}
-                        reload={reload}
-                      />
-                    ))}
+                    {(sortedNFTs || [])
+                      .filter((x) => !x.staked)
+                      .map((nft) => {
+                        const rarity = getRarityForWaterBear(
+                          waterBears,
+                          encodeName(`WaterBears #${extractNumber(nft.id)}`)
+                        );
+
+                        return (
+                          <Card
+                            rank={nft.rank}
+                            rarity={rarity}
+                            showRarity={showRarity}
+                            accountAddress={accountAddress}
+                            waterBearStakeId={waterBearStakeId}
+                            key={`${nft.id}-${nft.staked}`}
+                            id={nft.id}
+                            staked={nft.staked}
+                            reload={reload}
+                          />
+                        );
+                      })}
                   </div>
                   <div style={{ display: "flex" }} className="gap-x-[20px]">
                     <p style={{ fontSize: "20px" }}>Staked NFTs</p>
@@ -383,16 +468,28 @@ const Stake = () => {
                     className="w-full flex flex-col md:flex-row gap-[20px]"
                     style={{ flexWrap: "wrap" }}
                   >
-                    {(stakedNftIds || []).map((nft) => (
-                      <Card
-                        accountAddress={accountAddress}
-                        waterBearStakeId={waterBearStakeId}
-                        key={`${nft}`}
-                        id={nft}
-                        staked={true}
-                        reload={reload}
-                      />
-                    ))}
+                    {(sortedNFTs || [])
+                      .filter((x) => !!x.staked)
+                      .map((nft) => {
+                        const rarity = getRarityForWaterBear(
+                          waterBears,
+                          encodeName(`WaterBears #${extractNumber(nft.id)}`)
+                        );
+
+                        return (
+                          <Card
+                            rank={nft.rank}
+                            rarity={rarity}
+                            showRarity={showRarity}
+                            accountAddress={accountAddress}
+                            waterBearStakeId={waterBearStakeId}
+                            key={`${nft.id}-${nft.staked}`}
+                            id={nft.id}
+                            staked={nft.staked}
+                            reload={reload}
+                          />
+                        );
+                      })}
                   </div>
                 </>
               ) : (
