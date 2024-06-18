@@ -75,9 +75,9 @@ const Stake = () => {
     });
     const { state } = gatewayApi;
     const res = await state.getEntityDetailsVaultAggregated(
-      config.addresses.stakePoolComponent,
+      config.addresses.stakePoolComponent
     );
-    setGlobalNftCount(parseInt(res.details.state.fields[1].value))
+    setGlobalNftCount(parseInt(res.details.state.fields[1].value));
   }, []);
 
   useEffect(() => {
@@ -116,13 +116,61 @@ const Stake = () => {
   }, [stakeData]);
   // const globalStakePercent = 85;
 
+  const {
+    createStakingId,
+    claimRewards,
+    claimOldRewards,
+    stakeWaterBear,
+    withdrawWaterBear,
+  } = useSendTransactionManifest()();
+
+  const [oldStakedNftIds, setOldStakedNftIds] = useState(null);
+
+  const oldWaterBearStakeId = useMemo(() => {
+    try {
+      if (!account) return null;
+      return account.nonFungibleTokens[
+        config.addresses.oldWaterBearStakeIdResource
+      ][0].id;
+    } catch (err) {
+      return null;
+    }
+  }, [account]);
+
+  const getOldStakedWaterBears = useCallback(async () => {
+    if (!oldWaterBearStakeId) return;
+    const gatewayApi = GatewayApiClient.initialize({
+      networkId: RadixNetwork.Mainnet,
+      applicationName: "WaterBears",
+    });
+    const { state } = gatewayApi;
+    const res = await state.getNonFungibleData(
+      config.addresses.oldWaterBearStakeIdResource,
+      oldWaterBearStakeId
+    );
+    setOldStakedNftIds(
+      res.data.programmatic_json.fields[1].elements.map((x) => x.value)
+    );
+    setOldStakedNftIds(
+      res.data.programmatic_json.fields[1].elements.map((x) => x.value)
+    );
+  }, [oldWaterBearStakeId]);
+
+  useEffect(() => {
+    getOldStakedWaterBears();
+  }, [getOldStakedWaterBears]);
+
   const reload = useCallback(() => {
     getStakedWaterBears();
     getAllStakedWaterBears();
+    getOldStakedWaterBears();
     refresh();
-  }, [getStakedWaterBears, getAllStakedWaterBears, refresh]);
-
-  const { createStakingId, claimRewards } = useSendTransactionManifest()();
+  }, [
+    getStakedWaterBears,
+    getAllStakedWaterBears,
+    getOldStakedWaterBears,
+    refresh,
+  ]);
 
   return (
     <>
@@ -219,16 +267,8 @@ const Stake = () => {
               </div>
             </div>
 
-            <div className="w-full md:w-[860px] gap-[40px] flex flex-col mb-20">
+            <div className="w-full md:w-[860px] gap-[20px] flex flex-col mb-20">
               <div className="w-full flex flex-col md:flex-row justify-between">
-                {/* <div className="w-[305px] gap-[29px] flex flex-row md:mx-0 mx-auto mb-10 md:mb-0">
-                  <button className="w-[137px] h-[44px] rounded-lg flex items-center justify-center bg-[#42BFE8] text-[20px]">
-                    Stake All
-                  </button>
-                  <button className="w-[137px] h-[44px] rounded-lg flex items-center justify-center bg-[#2B2B2B] text-[20px] text-white text-opacity-70 border-[1px] border-white">
-                    Unstake All
-                  </button>
-                </div> */}
                 <div className="flex flex-col md:flex-row my-5 md:my-0 mx-auto md:mx-0">
                   <button className="w-[119px] h-[44px] rounded-lg flex items-center justify-center bg-[#2B2B2B] text-[20px] text-white text-opacity-70 border-[1px] border-white gap-[10px]">
                     <h1>Sort By</h1>
@@ -238,18 +278,126 @@ const Stake = () => {
               </div>
 
               {/* Cards  */}
-              <div className="w-full flex flex-col md:flex-row gap-[20px]" style={{flexWrap: "wrap" }}>
-                {(nfts || []).map((nft) => (
-                  <Card
-                    accountAddress={accountAddress}
-                    waterBearStakeId={waterBearStakeId}
-                    key={`${nft.id}-${nft.staked}`}
-                    id={nft.id}
-                    staked={nft.staked}
-                    reload={reload}
-                  />
-                ))}
+              {oldStakedNftIds && oldStakedNftIds.length > 0 && (
+                <>
+                  <div>
+                    <div style={{ display: "flex" }}>
+                      <b style={{ fontSize: "30px", width: "250px" }}>
+                        Old Staking System
+                      </b>
+                      <button
+                        className="w-[175px] h-[40px] bg-white text-[#42bfe8] text-[20px] flex justify-center items-center rounded-lg"
+                        style={{ zIndex: 2 }}
+                        onClick={() =>
+                          claimOldRewards({
+                            accountAddress,
+                            waterBearStakeId: oldWaterBearStakeId,
+                          }).then(() => reload())
+                        }
+                      >
+                        Claim Old Reward
+                      </button>
+                    </div>
+                    <br />
+                    <b style={{ color: "red" }}>
+                      Warning: A flaw has been detected in the old staking
+                      component. Please unstake your NFTs immediately to prevent
+                      any potential loss or issues.
+                    </b>
+                  </div>
+                  <div
+                    className="w-full flex flex-col md:flex-row gap-[20px]"
+                    style={{ flexWrap: "wrap" }}
+                  >
+                    {(oldStakedNftIds || []).map((nft) => (
+                      <Card
+                        accountAddress={accountAddress}
+                        waterBearStakeId={oldWaterBearStakeId}
+                        key={`${nft}`}
+                        id={nft}
+                        staked={true}
+                        reload={reload}
+                        old={true}
+                      />
+                    ))}
+                  </div>
+                  <hr />
+                </>
+              )}
+
+              <div>
+                <b style={{ fontSize: "30px" }}>New Staking System</b>
               </div>
+              {waterBearStakeId ? (
+                <>
+                  <div style={{ display: "flex" }} className="gap-x-[20px]">
+                    <p style={{ fontSize: "20px" }}>Unstaked NFTs</p>
+                    <div className="w-[305px] gap-[29px] flex flex-row md:mx-0 mx-auto mb-10 md:mb-0">
+                      <button
+                        className="w-[120px] h-[30px] rounded-lg flex items-center justify-center bg-[#42BFE8] text-[18px]"
+                        onClick={() =>
+                          stakeWaterBear({
+                            accountAddress,
+                            id: unstakedNftIds,
+                            waterBearStakeId,
+                          }).then(reload)
+                        }
+                      >
+                        Stake All
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    className="w-full flex flex-col md:flex-row gap-[20px]"
+                    style={{ flexWrap: "wrap" }}
+                  >
+                    {(unstakedNftIds || []).map((nft) => (
+                      <Card
+                        accountAddress={accountAddress}
+                        waterBearStakeId={waterBearStakeId}
+                        key={`${nft}`}
+                        id={nft}
+                        staked={false}
+                        reload={reload}
+                      />
+                    ))}
+                  </div>
+                  <div style={{ display: "flex" }} className="gap-x-[20px]">
+                    <p style={{ fontSize: "20px" }}>Staked NFTs</p>
+                    <div className="w-[305px] gap-[29px] flex flex-row md:mx-0 mx-auto mb-10 md:mb-0">
+                      <button
+                        className="w-[120px] h-[30px] rounded-lg flex items-center justify-center bg-[#42BFE8] text-[18px]"
+                        onClick={() =>
+                          withdrawWaterBear({
+                            accountAddress,
+                            id: stakedNftIds,
+                            waterBearStakeId,
+                          }).then(reload)
+                        }
+                      >
+                        Unstake All
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    className="w-full flex flex-col md:flex-row gap-[20px]"
+                    style={{ flexWrap: "wrap" }}
+                  >
+                    {(stakedNftIds || []).map((nft) => (
+                      <Card
+                        accountAddress={accountAddress}
+                        waterBearStakeId={waterBearStakeId}
+                        key={`${nft}`}
+                        id={nft}
+                        staked={true}
+                        reload={reload}
+                      />
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <b style={{ color: "red" }}>Please create a staking ID first</b>
+              )}
               {/* Cards  */}
             </div>
           </div>

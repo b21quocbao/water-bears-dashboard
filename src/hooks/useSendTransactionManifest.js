@@ -20,27 +20,37 @@ export const useSendTransactionManifest = () => {
       stakeWaterBear: input =>
         sendTransaction(
           transactionManifests.stakeWaterBear(input),
-          "Your NFT has been successfully staked. Thank you!"
+          "Thank you for staking the NFT!"
         ),
       withdrawWaterBear: input =>
         sendTransaction(
           transactionManifests.withdrawWaterBear(input),
-          "Your NFT has been successfully unstaked. Thank you!"
+          "Unstaking NFT!"
+        ),
+      withdrawOldWaterBear: input =>
+        sendTransaction(
+          transactionManifests.withdrawOldWaterBear(input),
+          "Unstaking old NFT!"
         ),
       claimRewards: input =>
         sendTransaction(
           transactionManifests.claimRewards(input),
-          "Your rewards have been successfully claimed. Thank you!"
+          "Claiming rewards!"
+        ),
+      claimOldRewards: input =>
+        sendTransaction(
+          transactionManifests.claimOldRewards(input),
+          "Claiming old rewards!"
         ),
       createStakingId: input =>
         sendTransaction(
           transactionManifests.createStakingId(input),
-          "Your staking ID have been successfully created. Thank you!"
+          "Creating staking ID!"
         ),
       buyTestTube: input =>
         sendTransaction(
           transactionManifests.buyTestTube(input),
-          "Thank you for breeding!"
+          "Buying test tube!"
         )
     }),
     [sendTransaction, transactionManifests, xrdAddress]

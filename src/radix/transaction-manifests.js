@@ -4,7 +4,9 @@ export const TransactionManifests = ({
     waterBearResource,
     waterBearStakeIdResource,
     dnaResource,
-    testTubeComponent
+    testTubeComponent,
+    oldWaterBearStakeIdResource,
+    oldStakePoolComponent
 }) => {
     const buyWaterBear = ({ accountAddress, xrdAddress, amount }) => {
         const transactionManifest = `
@@ -86,6 +88,39 @@ export const TransactionManifests = ({
     CALL_METHOD
         Address("${stakePoolComponent}")
         "withdraw"
+        Array<NonFungibleLocalId>(
+${id.map(x => `
+            NonFungibleLocalId("${x}"),
+`)}
+        )
+        Proof("proof_1")
+    ;
+    CALL_METHOD
+        Address("${accountAddress}")
+        "deposit_batch"
+        Expression("ENTIRE_WORKTOP")
+    ;
+    `
+        console.log(transactionManifest)
+        return transactionManifest
+    }
+
+    const withdrawOldWaterBear = ({ accountAddress, id, waterBearStakeId }) => {
+        const transactionManifest = `
+    CALL_METHOD
+        Address("${accountAddress}")
+        "create_proof_of_non_fungibles"
+        Address("${oldWaterBearStakeIdResource}")
+        Array<NonFungibleLocalId>(
+            NonFungibleLocalId("${waterBearStakeId}")
+        )
+    ;
+    POP_FROM_AUTH_ZONE
+        Proof("proof_1")
+    ;
+    CALL_METHOD
+        Address("${oldStakePoolComponent}")
+        "withdraw"
         NonFungibleLocalId("${id}")
         Proof("proof_1")
     ;
@@ -143,6 +178,34 @@ export const TransactionManifests = ({
         return transactionManifest
     }
 
+    const claimOldRewards = ({ accountAddress, waterBearStakeId }) => {
+        const transactionManifest = `
+    CALL_METHOD
+        Address("${accountAddress}")
+        "create_proof_of_non_fungibles"
+        Address("${oldWaterBearStakeIdResource}")
+        Array<NonFungibleLocalId>(
+            NonFungibleLocalId("${waterBearStakeId}")
+        )
+    ;
+    POP_FROM_AUTH_ZONE
+        Proof("proof")
+    ;
+    CALL_METHOD
+        Address("${oldStakePoolComponent}")
+        "claim_rewards"
+        Proof("proof")
+    ;
+    CALL_METHOD
+        Address("${accountAddress}")
+        "deposit_batch"
+        Expression("ENTIRE_WORKTOP")
+    ;
+    `
+        console.log(transactionManifest)
+        return transactionManifest
+    }
+
     const buyTestTube = ({ accountAddress, id1, id2, amount }) => {
         const transactionManifest = `
     CALL_METHOD
@@ -184,5 +247,5 @@ export const TransactionManifests = ({
         return transactionManifest
     }
 
-    return { buyWaterBear, stakeWaterBear, claimRewards, withdrawWaterBear, createStakingId, buyTestTube }
+    return { buyWaterBear, stakeWaterBear, claimOldRewards, claimRewards, withdrawWaterBear, withdrawOldWaterBear, createStakingId, buyTestTube }
 }

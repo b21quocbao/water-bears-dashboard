@@ -15,8 +15,12 @@ const networkConfig = {
         'resource_rdx1nguyesjve2e0wql8d9cepx7u63jtevdg05a7n5fc5m767mn4vkxpeq',
 
       stakePoolComponent:
-        'component_rdx1cqthlhz89njtzgp6zrmm93dyej3ll2fq6yrq0yfj2j99d7tpsxtgc7',
+        'component_rdx1cpg2g2nx5jm20ykyqheymuzs2wvulhn5qlpvhd6q4958vfj6gaa2yh',
       waterBearStakeIdResource:
+        'resource_rdx1nf0wazqeccmpltf5q4a7msxcz4eyaejh4s2kpc75g7flwy4s00dd0l',
+      oldStakePoolComponent:
+        'component_rdx1cqthlhz89njtzgp6zrmm93dyej3ll2fq6yrq0yfj2j99d7tpsxtgc7',
+      oldWaterBearStakeIdResource:
         'resource_rdx1ng5tup3hhugln0ajlu3pdvl6t7l26qe2laz9wkfatxwkp6rpe0vdf4',
       dnaResource:
         'resource_rdx1th9txt2hxdlc740ypf9uj8ghgwwmhf7wdnxafhxa3uxmmus56nusxs',

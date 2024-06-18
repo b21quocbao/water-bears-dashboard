@@ -1,7 +1,7 @@
 import { useSendTransactionManifest } from "../hooks/useSendTransactionManifest";
 
-const Card = ({ accountAddress, waterBearStakeId, id, staked, reload }) => {
-  const { stakeWaterBear, withdrawWaterBear } = useSendTransactionManifest()();
+const Card = ({ accountAddress, waterBearStakeId, id, staked, reload, old }) => {
+  const { stakeWaterBear, withdrawWaterBear, withdrawOldWaterBear } = useSendTransactionManifest()();
 
   return (
     <div className="flex flex-col gap-[8px] w-[200px] mx-auto md:mx-0 bg-[#2B2B2B] pb-3 rounded-lg">
@@ -31,16 +31,22 @@ const Card = ({ accountAddress, waterBearStakeId, id, staked, reload }) => {
         <button
           className="w-full h-[34px] rounded-lg flex justify-center items-center bg-[#42bfe8]"
           onClick={() => {
-            if (staked) {
-              withdrawWaterBear({
+            if (old) {
+              withdrawOldWaterBear({
                 accountAddress,
                 id,
+                waterBearStakeId,
+              }).then(reload);
+            } else if (staked) {
+              withdrawWaterBear({
+                accountAddress,
+                id: [id],
                 waterBearStakeId,
               }).then(reload);
             } else {
               stakeWaterBear({
                 accountAddress,
-                id,
+                id: [id],
                 waterBearStakeId,
               }).then(reload);
             }
