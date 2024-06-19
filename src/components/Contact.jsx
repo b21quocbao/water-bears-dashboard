@@ -20,10 +20,10 @@ const Contact = () => {
               waterbears.xrd@gmail.com
             </a>
             <div className="contact-socials">
-              <a href="#">
+              <a target="_blank" href="https://x.com/WaterBearsxrd">
                 <TwitterIcon />
               </a>
-              <a href="https://t.me/WaterBearsXRD">
+              <a target="_blank" href="https://t.me/WaterBearsXRD">
                 <TelegramIcon />
               </a>
             </div>
