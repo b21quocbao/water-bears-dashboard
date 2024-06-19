@@ -71,8 +71,14 @@ export default function FAQ() {
                 </AccordionItemHeading>
                 <AccordionItemPanel className="accordion-panel">
                   <p>
-                    Secure your spot in our whitelist to participate in the
-                    upcoming Mint!
+                    Mint is sold out ! But you can always buy Waterbears on the
+                    &nbsp;
+                    <a
+                      className="underline"
+                      href="https://swap.trove.tools/all-swaps/"
+                    >
+                      secondary market
+                    </a>
                   </p>
                 </AccordionItemPanel>
               </AccordionItem>
@@ -84,10 +90,23 @@ export default function FAQ() {
                   </AccordionItemButton>
                 </AccordionItemHeading>
                 <AccordionItemPanel className="accordion-panel">
-                  <p>WaterBears NFT https://dashboard.radixdlt.com/ </p>
                   <p>
-                    $DNA (RADIX):
-                    https://ociswap.com/resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd
+                    WaterBears NFT:{" "}
+                    <a
+                      className="underline"
+                      href="https://dashboard.radixdlt.com/resource/resource_rdx1nguyesjve2e0wql8d9cepx7u63jtevdg05a7n5fc5m767mn4vkxpeq/summary"
+                    >
+                      Contract
+                    </a>
+                  </p>
+                  <p>
+                    $DNA token:{" "}
+                    <a
+                      className="underline"
+                      href="https://ociswap.com/resource_rdx1th9txt2hxdlc740ypf9uj8ghgwwmhf7wdnxafhxa3uxmmus56nusxs"
+                    >
+                      Ociswap
+                    </a>
                   </p>
                 </AccordionItemPanel>
               </AccordionItem>
