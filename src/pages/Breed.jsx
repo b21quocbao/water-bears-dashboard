@@ -72,8 +72,8 @@ const Breed = () => {
                 accountAddress,
                 id1: selected[0],
                 id2: selected[1],
-                amount: 1
-              })
+                amount: 1,
+              });
             }}
           >
             Breed Now!
@@ -106,9 +106,7 @@ const Breed = () => {
             >
               <img
                 className="w-full rounded-tr-lg rounded-tl-lg"
-                src={`/assets/images/waterbears/waterbears-${parseInt(
-                  nft.substr(11)
-                )}.png`}
+                src={`/images/waterbears${parseInt(nft.substr(11))}.png`}
                 alt=""
               />
               <div className="flex flex-col w-[176px] gap-[20px] mx-auto">
@@ -117,7 +115,13 @@ const Breed = () => {
                   <h1 className="text-[26px]">#{parseInt(nft.substr(11))}</h1>
                   <button
                     className="w-full h-[34px] rounded-lg flex justify-center items-center bg-[#42bfe8]"
-                    onClick={() => setSelected(old => old.includes(nft) ? old.filter(x => x != nft) : [...old, nft])}
+                    onClick={() =>
+                      setSelected((old) =>
+                        old.includes(nft)
+                          ? old.filter((x) => x != nft)
+                          : [...old, nft]
+                      )
+                    }
                   >
                     {selected.includes(nft) ? "Deselect" : "Select"}
                   </button>
