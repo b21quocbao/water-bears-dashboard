@@ -19,7 +19,7 @@ const Card = ({
     <div className="flex flex-col gap-[8px] w-[200px] mx-auto md:mx-0 bg-[#2B2B2B] pb-3 rounded-lg">
       <img
         className="w-full rounded-tr-lg rounded-tl-lg"
-        src={`/src/assets/images/waterbears/waterbears-${extractNumber(
+        src={`/assets/images/waterbears/waterbears-${extractNumber(
           id
         )}.png`}
         alt=""

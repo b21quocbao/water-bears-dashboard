@@ -106,7 +106,7 @@ const Breed = () => {
             >
               <img
                 className="w-full rounded-tr-lg rounded-tl-lg"
-                src={`/src/assets/images/waterbears/waterbears-${parseInt(
+                src={`/assets/images/waterbears/waterbears-${parseInt(
                   nft.substr(11)
                 )}.png`}
                 alt=""
