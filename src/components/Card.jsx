@@ -11,17 +11,16 @@ const Card = ({
   rarity,
   hideStake,
   rank,
-  old
+  old,
 }) => {
-  const { stakeWaterBear, withdrawWaterBear, withdrawOldWaterBear } = useSendTransactionManifest()();
+  const { stakeWaterBear, withdrawWaterBear, withdrawOldWaterBear } =
+    useSendTransactionManifest()();
 
   return (
     <div className="flex flex-col gap-[8px] w-[200px] mx-auto md:mx-0 bg-[#2B2B2B] pb-3 rounded-lg">
       <img
         className="w-full rounded-tr-lg rounded-tl-lg"
-        src={`/assets/images/waterbears/waterbears-${extractNumber(
-          id
-        )}.png`}
+        src={`/images/waterbears${extractNumber(id)}.png`}
         alt=""
       />
       <div className="flex flex-col w-[176px] gap-[20px] mx-auto">
