@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/react": "^2.1.0",
     "@radixdlt/babylon-gateway-api-sdk": "^1.6.1",
     "@radixdlt/dapps-dropdown": "^0.2.1",
     "@radixdlt/radix-dapp-toolkit": "1.1.1",

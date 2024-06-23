@@ -7,6 +7,7 @@ import TwitterIcon from "../assets/svg/twitter.svg?react";
 import { useAccounts } from "../hooks/useAccounts";
 import styles from "./MintHero.module.css";
 import { AccountPicker } from "./base-components/account-picker/AccountPicker";
+import { Menu } from "@headlessui/react";
 
 const Header = ({ selectedAccountAddress, setSelectedAccountAddress }) => {
   const [isActive, setIsActive] = useState(false);
@@ -41,12 +42,47 @@ const Header = ({ selectedAccountAddress, setSelectedAccountAddress }) => {
             <a href="#about" className="header-navlink">
               About
             </a>
-            <a href="/mint" className="header-navlink">
-              Mint
-            </a>
-            <a href="/breed" className="header-navlink">
-              Breed
-            </a>
+
+            <div className="relative">
+              <Menu>
+                <Menu.Button className="header-navlink">Labo</Menu.Button>
+                <Menu.Items className="absolute w-56 z-10 shadow-lg bg-white mb-4 gap-8 flex-col rounded-lg flex-row">
+                  <Menu.Item key="WaterBears">
+                    <a
+                      className={`w-full py-3 w-full px-4 text-black block hover:text-gray-600`}
+                      href="/mint"
+                    >
+                      Mint WaterBears
+                    </a>
+                  </Menu.Item>
+                  <Menu.Item key="Sludge">
+                    <a
+                      className={`w-full py-3 w-full px-4 text-black block hover:text-gray-600`}
+                      href="/mintSludge"
+                    >
+                      Mint Sludges
+                    </a>
+                  </Menu.Item>
+                  <Menu.Item key="breed">
+                    <a
+                      className={`w-full py-3 w-full px-4 text-black block hover:text-gray-600`}
+                      href="/breed"
+                    >
+                      Breed WaterBears
+                    </a>
+                  </Menu.Item>
+                  <Menu.Item key="Sludge">
+                    <a
+                      className={`w-full py-3 w-full px-4 text-black block hover:text-gray-600`}
+                      href="/nursery"
+                    >
+                      Nursery
+                    </a>
+                  </Menu.Item>
+                </Menu.Items>
+              </Menu>
+            </div>
+
             <a href="/rarity" className="header-navlink">
               Rarity
             </a>

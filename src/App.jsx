@@ -14,6 +14,8 @@ import NoMatch from "./pages/NoMatch";
 import Stake from "./pages/Stake";
 import { RadixProvider } from "./radix/RadixProvider";
 import RarityPage from "./pages/RarityPage";
+import MintSludge from "./pages/MintSludge.jsx";
+import Nursery from "./pages/nursery.jsx";
 
 function App() {
   const [state, setState] = useState();
@@ -42,12 +44,24 @@ function App() {
   return (
     <>
       <RadixProvider value={state}>
+        <div
+          style={{ background: "#a3d416" }}
+          className="w-full text-center text-black bg-green p-4"
+        >
+          <span className="text-xl">☣️ ALERT ☣️</span> <br></br> Something
+          strange happened in the labo, around 10pm a thud and a flash of
+          lightning made the walls vibrate ! The chemist in charge of WaterBears
+          research was found lifeless. It seems that a never-before-seen viscous
+          material is responsible for this, but what could it be?
+        </div>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/mint" element={<Mint />} />
+          <Route path="/mintSludge" element={<MintSludge />} />
           <Route path="*" element={<NoMatch />} />
           <Route path="/breed" element={<Breed />} />
           <Route path="/rarity" element={<RarityPage />} />
+          <Route path="/nursery" element={<Nursery />} />
           <Route path="/stake" element={<Stake />} />
         </Routes>
       </RadixProvider>

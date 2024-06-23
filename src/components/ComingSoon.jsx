@@ -19,23 +19,25 @@ const ComingSoon = () => {
           />
           <div className="coming-soon-wrapper">
             {/* <h3 className="coming-soon-subtitle">tardigrades ARE</h3> */}
-            <h1 className="coming-soon-title">COMING soon</h1>
+            <h1 className="coming-soon-title">WaterBears</h1>
             <p className="coming-soon-text">
-              WaterBears is collection of 3,333 algorithmically generated
-              tardigrades living on the Radix Ledger. All art drawn by hand in
-              24px format. Explore the collection's ecosystem through staking,
-              gamified mints and custom merchandise.
+              A laboratory research team has been tasked with studying and
+              experimenting on a droel of bugs called WaterBears. After several
+              unsuccessful attempts, the chemists succeeded in creating and
+              maintaining a colony of 3333 WaterBears.
               <span className="coming-soon-text-br">
-                Each Genesis WaterBear produces 5 $DNA every day
+                They also noticed that placed in a contract, WaterBears could
+                generate a yellow substance, called $DNA. 1 WaterBear can
+                generate 5 $DNA / day
               </span>
             </p>
 
             <div className="coming-soon-guide">
               <p className="coming-soon-guide-text">
-                Hold any two Genesis WaterBears in your wallet and burn 300 $DNA
-                <span className="coming-soon-guide-text-br">
-                  to receive a test tube
-                </span>
+                Once mature, WaterBears are even able to reproduce, but this
+                costs them energy. With 300 $DNA and 2 WaterBears you can
+                generate
+                <span className="coming-soon-guide-text-br">a test tube</span>
               </p>
               <div className="coming-soon-guide-box">
                 <div className="coming-soon-guide-box-images">
