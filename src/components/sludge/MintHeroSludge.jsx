@@ -12,7 +12,7 @@ export const MintHeroSludge = ({ selectedAccountAddress }) => {
   const [count, setCount] = useState(0);
   const [minted, setMinted] = useState("--");
 
-  const { buyWaterBear } = useSendTransactionManifest()();
+  const { buySludge } = useSendTransactionManifest()();
 
   const getMintedCount = useCallback(async () => {
     const gatewayApi = GatewayApiClient.initialize({
@@ -21,7 +21,7 @@ export const MintHeroSludge = ({ selectedAccountAddress }) => {
     });
     const { state } = gatewayApi;
     const res = await state.getEntityDetailsVaultAggregated(
-      config.addresses.waterBearComponent
+      config.addresses.sludgeComponent
     );
     setMinted(parseInt(res.details.state.fields[2].elements.length));
   }, []);
@@ -71,7 +71,7 @@ export const MintHeroSludge = ({ selectedAccountAddress }) => {
             </p>
             <div className="hero-mint-box">
               <h3 className="hero-mint-box-title">Mint</h3>
-              <p className="hero-mint-box-text">The price is 250 XRD</p>
+              <p className="hero-mint-box-text">The price is 169 XRD</p>
               <div className="hero-mint-field">
                 <div className="hero-mint-total">
                   <span>{minted}</span>/<span>1000</span>
@@ -96,7 +96,7 @@ export const MintHeroSludge = ({ selectedAccountAddress }) => {
                   style={{ background: "#a3d416", borderColor: "#a3d416" }}
                   className="hero-mint-btn"
                   onClick={() =>
-                    buyWaterBear({
+                    buySludge({
                       accountAddress: selectedAccountAddress,
                       amount: count,
                     })

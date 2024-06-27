@@ -30,6 +30,8 @@ const networkConfig = {
 
       testTubeResource:
         "resource_rdx1n2e6jk57z6dde2e4f6zleju7rgawdya2jzvtgkr5kv6cz5j64uu780",
+      sludgeComponent:
+        "component_rdx1czqx3kux3t2fgsaafufudc3626gdwn7e3fj62s6fzl2ukzu8xzu6kf"
     },
   },
   Stokenet: {
