@@ -6,7 +6,9 @@ export const TransactionManifests = ({
     dnaResource,
     testTubeComponent,
     oldWaterBearStakeIdResource,
-    oldStakePoolComponent
+    oldStakePoolComponent,
+    sludgeComponent,
+    testTubeResource,
 }) => {
     const buyWaterBear = ({ accountAddress, xrdAddress, amount }) => {
         const transactionManifest = `
@@ -249,5 +251,62 @@ ${id.map(x => `
         return transactionManifest
     }
 
-    return { buyWaterBear, stakeWaterBear, claimOldRewards, claimRewards, withdrawWaterBear, withdrawOldWaterBear, createStakingId, buyTestTube }
+    const buySludge = ({ accountAddress, xrdAddress, amount }) => {
+        const transactionManifest = `
+    CALL_METHOD
+        Address("${accountAddress}")
+        "withdraw"
+        Address("${xrdAddress}")
+        Decimal("${169 * amount}")
+    ;
+    TAKE_ALL_FROM_WORKTOP
+        Address("${xrdAddress}")
+        Bucket("nft_bucket")
+    ;
+    CALL_METHOD
+        Address("${sludgeComponent}")
+        "buy_nft"
+        Bucket("nft_bucket")
+        Decimal("${amount}")
+    ;
+    CALL_METHOD
+        Address("${accountAddress}")
+        "deposit_batch"
+        Expression("ENTIRE_WORKTOP")
+    ;
+    `
+        console.log(transactionManifest)
+        return transactionManifest
+    }
+
+    const breedBaby = ({ accountAddress, id }) => {
+        const transactionManifest = `
+        CALL_METHOD
+            Address("${accountAddress}")
+            "withdraw_non_fungibles"
+            Address("${testTubeResource}")
+            Array<NonFungibleLocalId>(
+                NonFungibleLocalId("${id}")
+            )
+        ;
+        TAKE_ALL_FROM_WORKTOP
+            Address("${testTubeResource}")
+            Bucket("bucket")
+        ;
+        CALL_METHOD
+            Address("${waterBearComponent}")
+            "breed"
+            Bucket("bucket")
+        ;
+        CALL_METHOD
+            Address("${accountAddress}")
+            "deposit_batch"
+            Expression("ENTIRE_WORKTOP")
+        ;
+    `
+        console.log(transactionManifest)
+        return transactionManifest
+    }
+
+    return { buyWaterBear, stakeWaterBear, claimOldRewards, claimRewards, withdrawWaterBear, withdrawOldWaterBear, createStakingId, buyTestTube, buySludge, breedBaby }
 }
