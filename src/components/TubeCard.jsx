@@ -1,9 +1,8 @@
 import { extractNumber } from "../helpers/rarity";
 import { useSendTransactionManifest } from "../hooks/useSendTransactionManifest";
 
-const TubeCard = ({ id }) => {
-  const { stakeWaterBear, withdrawWaterBear, withdrawOldWaterBear } =
-    useSendTransactionManifest()();
+const TubeCard = ({ id, accountAddress }) => {
+  const { breedBaby } = useSendTransactionManifest()();
 
   return (
     <div className="flex flex-col gap-[8px] w-[200px] mx-auto md:mx-0 bg-[#2B2B2B] pb-3 rounded-lg">
@@ -20,7 +19,7 @@ const TubeCard = ({ id }) => {
         <button
           className="w-full h-[34px] rounded-lg flex justify-center items-center bg-[#42bfe8]"
           onClick={() => {
-            console.log("birth");
+            breedBaby({ id, accountAddress });
           }}
         >
           Open

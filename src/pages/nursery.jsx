@@ -30,13 +30,6 @@ const Nursery = () => {
     return nfts ? nfts.map((x) => x.id) : [];
   }, [account]);
 
-  // BABYS, TODO : Update ressrouce
-  const babysNftsId = useMemo(() => {
-    if (!account) return [];
-    let nfts = account.nonFungibleTokens[config.addresses.testTubeResource];
-    return nfts ? nfts.map((x) => x.id) : [];
-  }, [account]);
-
   return (
     <>
       <Header
@@ -67,7 +60,7 @@ const Nursery = () => {
             ) : (
               <div className="mt-6">
                 {tubesNftsId.map((tube) => {
-                  return <TubeCard id={tube} />;
+                  return <TubeCard id={tube} key={tube} accountAddress={accountAddress} />;
                 })}
               </div>
             )}

@@ -57,6 +57,11 @@ export const useSendTransactionManifest = () => {
           transactionManifests.buySludge({ ...input, xrdAddress }),
           "Thank you for purchasing the Sludge NFT!"
         ),
+      breedBaby: input =>
+        sendTransaction(
+          transactionManifests.breedBaby(input),
+          "Thank you for breeding BabyWaterBear!"
+        ),
     }),
     [sendTransaction, transactionManifests, xrdAddress]
   )
