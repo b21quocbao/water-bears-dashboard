@@ -29,7 +29,9 @@ const Breed = () => {
   const unstakedNftIds = useMemo(() => {
     if (!account) return [];
     let nfts = account.nonFungibleTokens[config.addresses.waterBearResource];
-    return nfts ? nfts.map((x) => x.id) : [];
+    return nfts
+      ? nfts.map((x) => x.id).filter((wb) => !wb.includes("BabyWaterBear"))
+      : [];
   }, [account]);
 
   const { buyTestTube } = useSendTransactionManifest()();
