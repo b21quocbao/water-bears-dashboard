@@ -1,7 +1,7 @@
 import { extractNumber } from "../helpers/rarity";
 import { useSendTransactionManifest } from "../hooks/useSendTransactionManifest";
 
-const TubeCard = ({ id, accountAddress }) => {
+const TubeCard = ({ id, accountAddress, reload }) => {
   const { breedBaby } = useSendTransactionManifest()();
 
   return (
@@ -19,7 +19,9 @@ const TubeCard = ({ id, accountAddress }) => {
         <button
           className="w-full h-[34px] rounded-lg flex justify-center items-center bg-[#42bfe8]"
           onClick={() => {
-            breedBaby({ id, accountAddress });
+            breedBaby({ id, accountAddress }).then(() => {
+              reload();
+            });
           }}
         >
           Open

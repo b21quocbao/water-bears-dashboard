@@ -2,7 +2,7 @@ import heroLeftImg from "../assets/images/hero-left-decorator-removebg-preview.p
 import heroRightImg from "../assets/images/hero-right-decorator-removebg-preview.png";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAccounts } from "../hooks/useAccounts";
 import { config } from "../config";
 
@@ -23,6 +23,10 @@ const Nursery = () => {
   }, [accounts, accountAddress]);
 
   const account = accounts.find((account) => account.address == accountAddress);
+
+  const reload = useCallback(() => {
+    refresh();
+  }, [refresh]);
 
   const tubesNftsId = useMemo(() => {
     if (!account) return [];
@@ -62,6 +66,7 @@ const Nursery = () => {
                 {tubesNftsId.map((tube) => {
                   return (
                     <TubeCard
+                      reload={reload}
                       id={tube}
                       key={tube}
                       accountAddress={accountAddress}
