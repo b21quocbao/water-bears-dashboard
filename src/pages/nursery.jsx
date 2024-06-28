@@ -58,9 +58,15 @@ const Nursery = () => {
             {tubesNftsId.length === 0 ? (
               <p className="py-6">You don't have any tubes</p>
             ) : (
-              <div className="mt-6">
+              <div className="mt-6 flex gap-4">
                 {tubesNftsId.map((tube) => {
-                  return <TubeCard id={tube} key={tube} accountAddress={accountAddress} />;
+                  return (
+                    <TubeCard
+                      id={tube}
+                      key={tube}
+                      accountAddress={accountAddress}
+                    />
+                  );
                 })}
               </div>
             )}
