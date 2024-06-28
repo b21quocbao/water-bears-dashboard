@@ -57,7 +57,9 @@ const Stake = () => {
     if (!account) return [];
 
     let nfts = account.nonFungibleTokens[config.addresses.waterBearResource];
-    return nfts ? nfts.map((x) => x.id) : [];
+    return nfts
+      ? nfts.map((x) => x.id).filter((wb) => !wb.includes("BabyWaterBear"))
+      : [];
   }, [account]);
 
   const waterBearStakeId = useMemo(() => {
@@ -70,6 +72,8 @@ const Stake = () => {
       return null;
     }
   }, [account]);
+
+  console.log(unstakedNftIds);
 
   const getStakedWaterBears = useCallback(async () => {
     if (!waterBearStakeId) return;
