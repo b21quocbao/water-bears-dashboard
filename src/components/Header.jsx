@@ -25,7 +25,7 @@ const Header = ({ selectedAccountAddress, setSelectedAccountAddress }) => {
     <header className="header">
       <div className="container">
         <div className="header-content">
-          <a href="#">
+          <a href="#" className="w-[250px]">
             <img
               src={WaterBearsLogo}
               alt="Water Bears"
@@ -39,8 +39,8 @@ const Header = ({ selectedAccountAddress, setSelectedAccountAddress }) => {
             <a href="#faq" className="header-navlink">
               FAQ
             </a>
-            <a href="#about" className="header-navlink">
-              About
+            <a href="/research" className="header-navlink">
+              Research
             </a>
 
             <div className="relative">

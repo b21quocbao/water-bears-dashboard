@@ -16,6 +16,7 @@ import { RadixProvider } from "./radix/RadixProvider";
 import RarityPage from "./pages/RarityPage";
 import MintSludge from "./pages/MintSludge.jsx";
 import Nursery from "./pages/nursery.jsx";
+import Research from "./pages/Research.jsx";
 
 function App() {
   const [state, setState] = useState();
@@ -57,6 +58,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/mint" element={<Mint />} />
+          <Route path="/research" element={<Research />} />
           <Route path="/mintSludge" element={<MintSludge />} />
           <Route path="*" element={<NoMatch />} />
           <Route path="/breed" element={<Breed />} />

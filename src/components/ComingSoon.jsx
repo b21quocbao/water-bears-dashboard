@@ -4,6 +4,8 @@ import ComingSoonBear1 from "../assets/images/Tardigrade10.png";
 import ComingSoonBear2 from "../assets/images/Tardigrade14.png";
 import ComingSoonBear3 from "../assets/images/Capsule2.png";
 import ComingSoonBear5 from "../assets/images/Baby2.png";
+import Sludge from "../assets/images/sludge.jpg";
+
 import Coin from "../assets/images/coin.png";
 import RightArrow from "../assets/svg/right-arrow.svg?react";
 
@@ -12,32 +14,33 @@ const ComingSoon = () => {
     <section className="coming-soon">
       <div className="container">
         <div className="coming-soon-content">
-          <img
-            src={ComingSoonLeftDecorator}
-            alt=""
-            className="coming-soon-left-decorator"
-          />
           <div className="coming-soon-wrapper">
-            {/* <h3 className="coming-soon-subtitle">tardigrades ARE</h3> */}
-            <h1 className="coming-soon-title">WaterBears</h1>
-            <p className="coming-soon-text">
-              A laboratory research team has been tasked with studying and
-              experimenting on a droel of bugs called WaterBears. After several
-              unsuccessful attempts, the chemists succeeded in creating and
-              maintaining a colony of 3333 WaterBears.
-              <span className="coming-soon-text-br">
-                They also noticed that placed in a contract, WaterBears could
-                generate a yellow substance, called $DNA. 1 WaterBear can
-                generate 5 $DNA / day
-              </span>
+            <p className="text-center text-xl p-12 text-[#43bfe8] border-b text-2xl">
+              📝 Here are the notes on the research carried out by the chemists
+              📝
             </p>
-
-            <div className="coming-soon-guide">
-              <p className="coming-soon-guide-text">
-                Once mature, WaterBears are even able to reproduce, but this
-                costs them energy. With 300 $DNA and 2 WaterBears you can
-                generate
-                <span className="coming-soon-guide-text-br">a test tube</span>
+            <p className="text-red mt-8 pt-4 text-md text-[#f6d896] italic">
+              14th june 2024 : 5.45 pm
+            </p>
+            <span className="coming-soon-tex">
+              Friedrich, the chemist in charge of research on water bears, noted
+              that when placed in a certain envionment, water bears generate a
+              high level of a yellow energy, called $DNA. Each WaterBear can
+              generate 5 $DNA / day.
+            </span>
+            <p className="text-red pt-4  mt-8 text-md text-[#f6d896] italic">
+              15th june 2024 : 8.22 am
+            </p>
+            <div className="">
+              <p className="text-left">
+                It seems that this energy can be used to reproduce 2 waterBears
+                together! After several unsuccessful attempts, our team
+                succeeded in creating a WaterBears embryo using a stable
+                quantity of $DNA.
+                <span className="text-left">
+                  With 300 $DNA, we are able to create a tube with a WaterBears
+                  egg on the inside.
+                </span>
               </p>
               <div className="coming-soon-guide-box">
                 <div className="coming-soon-guide-box-images">
@@ -49,9 +52,15 @@ const ComingSoon = () => {
                   <img src={ComingSoonBear3} alt="" />
                 </div>
               </div>
-              <p className="coming-soon-guide-text">
-                Each test tube can be minted into a baby WaterBear. Baby
-                WaterBears has a supply of 6,666 supply
+              <p className="text-red  mt-8 pt-4 text-md text-[#f6d896] italic">
+                28th june 2024 : 4.10 pm
+              </p>
+              <p className="">
+                We've done it, it's great! incredible! We succeeded in giving
+                birth to the first babyWaterBear ! Their genome is unknown and
+                does not resemble any existing living being, it's really
+                fascinating. However, we have noticed that they are limited,
+                only 6,666 Babys able to live.
                 <span className="coming-soon-guide-text-br"></span>
               </p>
               <div className="coming-soon-guide-box">
@@ -63,20 +72,51 @@ const ComingSoon = () => {
                   <img src={ComingSoonBear5} alt="" />
                 </div>
               </div>
-              <p className="coming-soon-guide-text">
-                1 $DNA = 1 $DNA
-                <span className="coming-soon-guide-text-br">
-                  DNA is not an investment and has no financial value
-                </span>
+              <div></div>
+              <p className="text-red  mt-8 pt-4 text-md text-[#f6d896] italic">
+                28th june 2024 : 10.02 pm
               </p>
-              <img src={Coin} alt="" className="coming-soon-guide-coin" />
+              <p className="text-[#a3d416]">
+                ☣️ ALERT ☣️☣️ ALERT ☣️☣️ ALERT ☣️☣️ ALERT ☣️☣️ ALERT ☣️☣️ ALERT
+                ☣️☣️ ALERT ☣️☣️ ALERT ☣️☣️ ALERT ☣️
+                <span className="coming-soon-guide-text-br"></span>
+              </p>
+              <p>
+                Something strange happened in the labo, a thud and a flash of
+                lightning made the walls vibrate ! The chemist in charge of
+                WaterBears research, Friedrich, was found lifeless. It seems
+                that a never-before-seen viscous material is responsible for
+                this.
+              </p>
+              <div className="coming-soon-guide-box-images text-center mx-auto">
+                <img src={Sludge} alt="" className="mx-auto m-6" />
+              </div>
+              <p className="mt-4">
+                This substance is really strange, it doesn't come from the earth
+                that's for sure. Despite Friedrich's death, we'll continue to
+                carry out our research - it was his life's work, and we owe him
+                a debt of gratitude.
+              </p>
+              <p className="text-red  mt-8 pt-4 text-md text-[#f6d896] italic">
+                29th june 2024 : 11.28 am
+              </p>
+              <p className="mt-4">
+                Our first research on the sludge has provided us with some
+                information.... this substance is not stable at all and is
+                extremely difficult to synthesize. However, we have managed to
+                stabilize it in a safe state but in very small quantities....
+                (1000). It also seems that once sludge has been manipulated, it
+                vaporizes forever and can never be used again. <br></br>
+              </p>
+              <p>
+                But his physical properties are incredible, and will make it
+                possible to do things never seen before....
+              </p>
+              <p className="text-red mt-8 pt-4 text-md text-[#f6d896] italic">
+                More research is being carried out ....
+              </p>
             </div>
           </div>
-          <img
-            src={ComingSoonRightDecorator}
-            alt=""
-            className="coming-soon-right-decorator"
-          />
         </div>
       </div>
     </section>
