@@ -70,7 +70,13 @@ export const extractNumber = (str) => {
       const number = parseInt(match[1], 10);
       return number;
     } else {
-      return null;
+      const regex = /<BabyWaterBear_(\d+)>/;
+      const match = tag.match(regex);
+      if (match) {
+        return parseInt(match[1], 10);
+      } else {
+        return null;
+      }
     }
   }
 };

@@ -10,22 +10,29 @@ const Card = ({
   showRarity,
   rarity,
   hideStake,
+  isBaby,
   rank,
   old,
 }) => {
   const { stakeWaterBear, withdrawWaterBear, withdrawOldWaterBear } =
     useSendTransactionManifest()();
 
+  const waterBearImage = `/images/waterbears${extractNumber(id)}.png`;
+  const babyWaterBearImage = `/images/babys/babywaterbear${extractNumber(
+    id
+  )}.png`;
   return (
     <div className="flex flex-col gap-[8px] w-[200px] mx-auto md:mx-0 bg-[#2B2B2B] pb-3 rounded-lg">
       <img
         className="w-full rounded-tr-lg rounded-tl-lg"
-        src={`/images/waterbears${extractNumber(id)}.png`}
+        src={isBaby ? babyWaterBearImage : waterBearImage}
         alt=""
       />
       <div className="flex flex-col w-[176px] gap-[20px] mx-auto">
         <div className="w-full gap-[12px]">
-          <h1 className="text-[22px]">Water Bears #{extractNumber(id)}</h1>
+          <h1 className="text-[22px]">
+            {isBaby ? "Baby Water Bears" : "Water Bears"} #{extractNumber(id)}
+          </h1>
           {showRarity && (
             <ul className="bg-gray-700 p-2 rounded mt-2 divide divide-y">
               {Object.keys(rarity).map((key) => {

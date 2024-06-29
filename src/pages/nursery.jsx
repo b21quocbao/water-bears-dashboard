@@ -7,6 +7,7 @@ import { useAccounts } from "../hooks/useAccounts";
 import { config } from "../config";
 
 import TubeCard from "../components/TubeCard";
+import Card from "../components/Card";
 
 const Nursery = () => {
   const {
@@ -24,6 +25,15 @@ const Nursery = () => {
 
   const account = accounts.find((account) => account.address == accountAddress);
 
+  const babysNftId = useMemo(() => {
+    if (!account) return [];
+
+    let nfts = account.nonFungibleTokens[config.addresses.waterBearResource];
+    return nfts
+      ? nfts.map((x) => x.id).filter((wb) => wb.includes("BabyWaterBear"))
+      : [];
+  }, [account]);
+  console.log(babysNftId);
   const reload = useCallback(() => {
     refresh();
   }, [refresh]);
@@ -57,7 +67,7 @@ const Nursery = () => {
               eiusmod tempor.
             </p>
           </div>
-          <div style={{ minHeight: "500px" }}>
+          <div>
             <b style={{ fontSize: "45px" }}>Your tubes 🧪</b>
             {tubesNftsId.length === 0 ? (
               <p className="py-6">You don't have any tubes</p>
@@ -70,6 +80,26 @@ const Nursery = () => {
                       id={tube}
                       key={tube}
                       accountAddress={accountAddress}
+                    />
+                  );
+                })}
+              </div>
+            )}
+          </div>
+          <div className="pb-12">
+            <b style={{ fontSize: "45px" }}>Your babys</b>
+            {babysNftId.length === 0 ? (
+              <p className="py-6">You don't have any babys</p>
+            ) : (
+              <div className="mt-6 flex mb-6 gap-4">
+                {babysNftId.map((nft) => {
+                  return (
+                    <Card
+                      isBaby
+                      hideStake
+                      key={`${nft}`}
+                      id={nft}
+                      reload={reload}
                     />
                   );
                 })}
