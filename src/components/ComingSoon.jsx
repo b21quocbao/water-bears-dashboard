@@ -112,6 +112,18 @@ const ComingSoon = () => {
                 But his physical properties are incredible, and will make it
                 possible to do things never seen before....
               </p>
+              <p className="text-red  mt-8 pt-4 text-md text-[#f6d896] italic">
+                30th june 2024 : 1.45 pm
+              </p>
+              <p className="mt-4">
+                We've experimented the sludge on several subjects, and all have
+                proved unsuccessful... However, in the last one, we noticed that
+                before dying, subject number 34 had a degeneration of his
+                DNA...which transformed him into a second state for a few
+                seconds. Very very interesting... We need to do more research
+                and accelerate them, sludge is very difficult to maintain in
+                this state, we have very little time !! <br></br>
+              </p>
               <p className="text-red mt-8 pt-4 text-md text-[#f6d896] italic">
                 More research is being carried out ....
               </p>
