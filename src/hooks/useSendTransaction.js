@@ -1,15 +1,15 @@
-import { useCallback } from "react"
-import { useDappToolkit } from "./useDappToolkit"
+import { useCallback } from "react";
+import { useDappToolkit } from "./useDappToolkit";
 
 export const useSendTransaction = () => {
-  const dAppToolkit = useDappToolkit()
+  const { radixDappToolkit } = useDappToolkit();
 
   const sendTransaction = (transactionManifest, message) =>
-    dAppToolkit.walletApi.sendTransaction({
+    radixDappToolkit.walletApi.sendTransaction({
       transactionManifest,
       version: 1,
-      message
-    })
+      message,
+    });
 
-  return useCallback(sendTransaction, [dAppToolkit])
-}
+  return useCallback(sendTransaction, [radixDappToolkit]);
+};

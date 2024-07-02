@@ -25,7 +25,7 @@ const Header = ({ selectedAccountAddress, setSelectedAccountAddress }) => {
     <header className="header">
       <div className="container">
         <div className="header-content">
-          <a href="#" className="w-[250px]">
+          <a href="#" className="w-[250px] header-logo">
             <img
               src={WaterBearsLogo}
               alt="Water Bears"
@@ -94,6 +94,7 @@ const Header = ({ selectedAccountAddress, setSelectedAccountAddress }) => {
             <div className={styles["radix-connect-button"]}>
               <radix-connect-button ref={ref} />
             </div>
+
             {accounts.length ? (
               <AccountPicker
                 accounts={accounts}

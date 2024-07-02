@@ -3,19 +3,9 @@ import heroLeftImg from "../assets/images/hero-left-decorator-removebg-preview.p
 import heroRightImg from "../assets/images/hero-right-decorator-removebg-preview.png";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { useSendTransactionManifest } from "../hooks/useSendTransactionManifest";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useAccounts } from "../hooks/useAccounts";
-import { config } from "../config";
-import {
-  calculateRarityAcrossAll,
-  calculateRarityValueForAll,
-  encodeName,
-  extractNumber,
-  getAllAttributes,
-  getRankForWaterBearInSortedRarity,
-  getRarityForWaterBear,
-} from "../helpers/rarity";
+
 import nfts from "../metadata.json";
 
 const RarityPage = () => {

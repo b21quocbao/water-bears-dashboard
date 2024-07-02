@@ -21,6 +21,7 @@ import {
   GatewayApiClient,
   RadixNetwork,
 } from "@radixdlt/babylon-gateway-api-sdk";
+import { useDappToolkit } from "../hooks/useDappToolkit";
 
 const Stake = () => {
   const allAttributes = useMemo(() => {
@@ -33,6 +34,8 @@ const Stake = () => {
   const allRarity = useMemo(() => {
     return calculateRarityValueForAll(waterBears, rarityPercentages);
   }, [rarityPercentages, waterBears]);
+
+  const { gatewayApi } = useDappToolkit();
 
   const [stakedNftIds, setStakedNftIds] = useState(null);
   const [stakeData, setStakeData] = useState(null);
@@ -73,14 +76,9 @@ const Stake = () => {
     }
   }, [account]);
 
-  console.log(unstakedNftIds);
-
   const getStakedWaterBears = useCallback(async () => {
     if (!waterBearStakeId) return;
-    const gatewayApi = GatewayApiClient.initialize({
-      networkId: RadixNetwork.Mainnet,
-      applicationName: "WaterBears",
-    });
+
     const { state } = gatewayApi;
     const res = await state.getNonFungibleData(
       config.addresses.waterBearStakeIdResource,
@@ -96,10 +94,6 @@ const Stake = () => {
   }, [waterBearStakeId]);
 
   const getAllStakedWaterBears = useCallback(async () => {
-    const gatewayApi = GatewayApiClient.initialize({
-      networkId: RadixNetwork.Mainnet,
-      applicationName: "WaterBears",
-    });
     const { state } = gatewayApi;
     const res = await state.getEntityDetailsVaultAggregated(
       config.addresses.stakePoolComponent

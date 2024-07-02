@@ -2,23 +2,17 @@ import { useCallback, useEffect, useState } from "react";
 import HeroLeftDecorator from "../../assets/images/left.png";
 import HeroRightDecorator from "../../assets/images/right.png";
 import { useSendTransactionManifest } from "../../hooks/useSendTransactionManifest";
-import {
-  GatewayApiClient,
-  RadixNetwork,
-} from "@radixdlt/babylon-gateway-api-sdk";
+
 import { config } from "../../config";
+import { useDappToolkit } from "../../hooks/useDappToolkit";
 
 export const MintHeroSludge = ({ selectedAccountAddress }) => {
   const [count, setCount] = useState(0);
   const [minted, setMinted] = useState("--");
-
+  const { gatewayApi } = useDappToolkit();
   const { buySludge } = useSendTransactionManifest()();
 
   const getMintedCount = useCallback(async () => {
-    const gatewayApi = GatewayApiClient.initialize({
-      networkId: RadixNetwork.Mainnet,
-      applicationName: "WaterBears",
-    });
     const { state } = gatewayApi;
     const res = await state.getEntityDetailsVaultAggregated(
       config.addresses.sludgeComponent

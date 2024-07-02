@@ -1,7 +1,7 @@
 import {
   DataRequestBuilder,
   RadixDappToolkit,
-  createLogger,
+  Logger,
 } from "@radixdlt/radix-dapp-toolkit";
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
@@ -17,6 +17,7 @@ import RarityPage from "./pages/RarityPage";
 import MintSludge from "./pages/MintSludge.jsx";
 import Nursery from "./pages/nursery.jsx";
 import Research from "./pages/Research.jsx";
+import { GatewayApiClient } from "@radixdlt/babylon-gateway-api-sdk";
 
 function App() {
   const [state, setState] = useState();
@@ -24,16 +25,22 @@ function App() {
   // Initialize Radix Dapp Toolkit in the client
   useEffect(() => {
     const radixDappToolkit = RadixDappToolkit({
-      networkId: config.network.networkId,
       dAppDefinitionAddress: config.dAppDefinitionAddress,
-      logger: createLogger(2),
+      networkId: config.network.networkId,
+      applicationName: "WaterBears",
+      applicationVersion: "1.0.0",
+      logger: Logger(2),
     });
+
+    const gatewayApi = GatewayApiClient.initialize(
+      radixDappToolkit.gatewayApi.clientConfig
+    );
 
     radixDappToolkit.walletApi.setRequestData(
       DataRequestBuilder.accounts().atLeast(1)
     );
 
-    setState(radixDappToolkit);
+    setState({ radixDappToolkit, gatewayApi });
 
     return () => {
       radixDappToolkit.destroy();

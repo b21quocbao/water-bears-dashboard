@@ -1,16 +1,16 @@
-import { shortenAddress } from '../../../helpers/shorten-address'
-import { useOutsideClick } from '../../../hooks/useOutsideClick'
-import styles from './AccountPicker.module.css'
-import { useEffect, useState } from 'react'
-import { animated, useSpring } from '@react-spring/web'
-import { Text } from '../text/Text'
+import { shortenAddress } from "../../../helpers/shorten-address";
+import { useOutsideClick } from "../../../hooks/useOutsideClick";
+import styles from "./AccountPicker.module.css";
+import { useEffect, useState } from "react";
+import { animated, useSpring } from "@react-spring/web";
+import { Text } from "../text/Text";
 
 const Account = ({
   label,
   address,
   appearanceId,
   className,
-  variant = 'default',
+  variant = "default",
   // eslint-disable-next-line
   selected,
   onClick,
@@ -20,25 +20,21 @@ const Account = ({
       styles[`appearance-id-${appearanceId}`]
     } ${className} ${styles[variant]}`}
     onClick={() => {
-      if (onClick) onClick(address)
+      if (onClick) onClick(address);
     }}
   >
     <span className={styles.label}>{label}</span>
     <span className={styles.address}>{shortenAddress(address)}</span>
   </div>
-)
+);
 
-const Dropdown = ({
-  accounts,
-  selected,
-  onClick,
-}) => {
+const Dropdown = ({ accounts, selected, onClick }) => {
   return (
     <div className={styles.dropdown}>
       {accounts.length ? (
         accounts.map((account, index, arr) => (
           <Account
-            className={`${index === arr.length - 1 ? '' : 'mb-05'} clickable`}
+            className={`${index === arr.length - 1 ? "" : "mb-05"} clickable`}
             key={account.address}
             variant="radio-button"
             selected={selected?.address === account.address}
@@ -50,26 +46,21 @@ const Dropdown = ({
         <Text variant="paragraph">No accounts found</Text>
       )}
     </div>
-  )
-}
+  );
+};
 
-const Select = ({
-  onClick,
-  open,
-  selected,
-  disabled,
-}) => (
+const Select = ({ onClick, open, selected, disabled }) => (
   <div
-    className={`${styles.select} ${open ? styles.open : ''} ${
-      selected ? styles['selected'] : ''
-    } ${disabled ? styles['disabled'] : 'clickable'}`}
+    className={`${styles.select} ${open ? styles.open : ""} ${
+      selected ? styles["selected"] : ""
+    } ${disabled ? styles["disabled"] : "clickable"}`}
     onClick={onClick}
   >
     {selected ? (
       <Account
         {...selected}
         variant="select-button"
-        className={`${open ? styles.open : ''}`}
+        className={`${open ? styles.open : ""}`}
       />
     ) : (
       <span
@@ -77,14 +68,14 @@ const Select = ({
           disabled ? styles.disabled : styles.placeholder
         }`}
       >
-        {disabled ? 'Connect your wallet' : 'Select an account'}
+        {disabled ? "Connect your wallet" : "Select an account"}
       </span>
     )}
   </div>
-)
+);
 
-const closedStyle = { opacity: 0, transform: 'translateY(-10px)' }
-const openStyle = { opacity: 1, transform: 'translateY(0px)' }
+const closedStyle = { opacity: 0, transform: "translateY(-10px)" };
+const openStyle = { opacity: 1, transform: "translateY(0px)" };
 
 export const AccountPicker = ({
   accounts,
@@ -93,34 +84,37 @@ export const AccountPicker = ({
   onSelect,
   className,
 }) => {
-  const [open, setOpen] = useState(openControl ?? false)
+  const [open, setOpen] = useState(openControl ?? false);
 
-  const ref = useOutsideClick(() => setOpen(false))
+  const ref = useOutsideClick(() => setOpen(false));
 
   const [style, api] = useSpring(() => ({
     from: closedStyle,
-  }))
+  }));
 
   const selectedAccount = accounts.find(
     (account) => account.address === selected
-  )
+  );
 
-  const openIntent = openControl !== undefined ? openControl : open
+  const openIntent = openControl !== undefined ? openControl : open;
 
-  const disabled = accounts.length === 0
+  const disabled = accounts.length === 0;
 
   useEffect(() => {
     api.start({
       to: openIntent ? openStyle : closedStyle,
-    })
-  }, [open, openControl, openIntent, api])
+    });
+  }, [open, openControl, openIntent, api]);
 
   return (
-    <div className={`${styles['account-picker']} ${className}`} ref={ref}>
+    <div
+      className={`${styles["account-picker"]} ${className} header-picker`}
+      ref={ref}
+    >
       <Select
         open={disabled ? false : openIntent}
         onClick={() => {
-          setOpen((prev) => !prev)
+          setOpen((prev) => !prev);
         }}
         selected={selectedAccount}
         disabled={accounts.length === 0}
@@ -133,12 +127,12 @@ export const AccountPicker = ({
                 selected={selectedAccount}
                 accounts={accounts}
                 onClick={(address) => {
-                  onSelect(address)
-                  setOpen(false)
+                  onSelect(address);
+                  setOpen(false);
                 }}
               />
             </animated.div>
           )}
     </div>
-  )
-}
+  );
+};

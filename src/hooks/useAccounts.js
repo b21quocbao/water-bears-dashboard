@@ -39,17 +39,18 @@ const useWithTokens = (stateApi) => {
 };
 
 export const useAccounts = () => {
-  const dAppToolkit = useDappToolkit();
+  const { radixDappToolkit, gatewayApi } = useDappToolkit();
   const [state, setState] = useState({
     accounts: [],
     status: "pending",
     hasLoaded: false,
   });
 
-  const withTokens = useWithTokens(dAppToolkit.gatewayApi.state);
+  const withTokens = useWithTokens(gatewayApi.state);
 
   useEffect(() => {
-    const subscription = dAppToolkit.walletApi.walletData$
+    console.log(radixDappToolkit.walletApi);
+    const subscription = radixDappToolkit.walletApi.walletData$
       .pipe(
         map((walletData) => walletData.accounts),
         switchMap((accounts) => {
@@ -72,7 +73,7 @@ export const useAccounts = () => {
     return () => {
       subscription.unsubscribe();
     };
-  }, [dAppToolkit, withTokens, setState]);
+  }, [radixDappToolkit, withTokens, setState]);
 
   return {
     state,
