@@ -91,7 +91,7 @@ const Nursery = () => {
             {babysNftId.length === 0 ? (
               <p className="py-6">You don't have any babys</p>
             ) : (
-              <div className="mt-6 flex mb-6 gap-4">
+              <div className="mt-6 flex mb-6 gap-4 flex-wrap">
                 {babysNftId.map((nft) => {
                   return (
                     <Card
