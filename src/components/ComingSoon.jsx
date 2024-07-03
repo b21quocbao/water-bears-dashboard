@@ -6,6 +6,7 @@ import ComingSoonBear3 from "../assets/images/Capsule2.png";
 import ComingSoonBear5 from "../assets/images/Baby2.png";
 import Sludge from "../assets/images/sludge.jpg";
 
+import Question from "../assets/images/question.png";
 import Coin from "../assets/images/coin.png";
 import RightArrow from "../assets/svg/right-arrow.svg?react";
 
@@ -124,8 +125,46 @@ const ComingSoon = () => {
                 and accelerate them, sludge is very difficult to maintain in
                 this state, we have very little time !! <br></br>
               </p>
+              <p className="text-red  mt-8 pt-4 text-md text-[#f6d896] italic">
+                3rd july 2024 : 4.45 pm
+              </p>
+              <p className="mt-4">
+                I can't believe what's just happened. That idiot Dr Glenn, I
+                can't believe it.... What has he done... I was in the middle of
+                a luminescent synthesis by triangular bicarbonation with a
+                double funnel, and Glenn, thought it was the best time to look
+                at the BTC chart. That's exactly when the support broke, and I'm
+                not talking about the BTC support!! That moron Glenn broke the
+                biggest vial full of $DNA on the sludge!!! And guess what? An
+                incredible reaction took place: all the living creatures in the
+                vicinity were transformed into some kind of bizarre thing....
+                It's crazy! It seems that when you mix sludge with $DNA and a
+                living organism this one is transformed!
+                <br></br>
+              </p>
+              <div className="coming-soon-guide-box">
+                <div className="coming-soon-guide-box-images">
+                  <div className="bg-[#282c3c] rounded-xl p-4">
+                    <img
+                      style={{ width: "70px", height: "70px" }}
+                      src={Coin}
+                      alt=""
+                      className="w-24"
+                    />
+                  </div>
+                  <img src={Sludge} alt="" />
+                  <img src={Question} alt="" />
+                </div>
+                <RightArrow className="coming-soon-guide-box-arrow" />
+                <div className="coming-soon-guide-box-images">
+                  <img src={Question} alt="" />
+                </div>
+              </div>
               <p className="text-red mt-8 pt-4 text-md text-[#f6d896] italic">
                 More research is being carried out ....
+              </p>
+              <p className="text-red mt-8 pt-4 text-md text-[#f6d896] italic">
+                PS : Glenn is fired
               </p>
             </div>
           </div>
