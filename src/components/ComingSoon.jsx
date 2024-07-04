@@ -5,10 +5,13 @@ import ComingSoonBear2 from "../assets/images/Tardigrade14.png";
 import ComingSoonBear3 from "../assets/images/Capsule2.png";
 import ComingSoonBear5 from "../assets/images/Baby2.png";
 import Sludge from "../assets/images/sludge.jpg";
-
 import Question from "../assets/images/question.png";
 import Coin from "../assets/images/coin.png";
 import RightArrow from "../assets/svg/right-arrow.svg?react";
+import {
+  ReactCompareSlider,
+  ReactCompareSliderImage,
+} from "react-compare-slider";
 
 const ComingSoon = () => {
   return (
@@ -161,10 +164,47 @@ const ComingSoon = () => {
                 </div>
               </div>
               <p className="text-red mt-8 pt-4 text-md text-[#f6d896] italic">
-                More research is being carried out ....
+                PS : Glenn is fired
               </p>
               <p className="text-red mt-8 pt-4 text-md text-[#f6d896] italic">
-                PS : Glenn is fired
+                4th july 2024 : 3.28 pm
+              </p>
+              <p className="mt-4">
+                We did it! I can't believe it! We've managed to stabilize and
+                keep alive the first genetically modified living being using
+                Sludge and DNA! What's amazing is that, alone, the Waterbear is
+                letting himself die, it's essential that 2 babys are present
+                with him during the mutation! It's an incredible step forward in
+                our research, and we're proud to present the first mutant
+                WaterBear specimen!
+              </p>
+              <div className="p-3 max-w-96 mx-auto mt-4">
+                <ReactCompareSlider
+                  itemOne={
+                    <ReactCompareSliderImage
+                      src="/images/normal.png"
+                      className="rounded-lg"
+                      alt="Image one"
+                    />
+                  }
+                  itemTwo={
+                    <ReactCompareSliderImage
+                      src="/images/mutant.jpg"
+                      className="rounded-lg"
+                      alt="Image two"
+                    />
+                  }
+                />
+              </div>
+              <p className="mt-4">
+                We're currently carrying out further research to create an ideal
+                space for WaterBears to mutate in complete safety! It's a very
+                dangerous operation, which is why we have to make sure that
+                everything is ready and perfectly safe before opening it to the
+                public.
+              </p>
+              <p className="text-red mt-8 pt-4 text-md text-[#f6d896] italic">
+                More research in progress...
               </p>
             </div>
           </div>
