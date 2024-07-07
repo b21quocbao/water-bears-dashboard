@@ -75,7 +75,7 @@ export default function FAQ() {
                     &nbsp;
                     <a
                       className="underline"
-                      href="https://swap.trove.tools/all-swaps/"
+                      href="https://swap.trove.tools/collection/resource_rdx1nguyesjve2e0wql8d9cepx7u63jtevdg05a7n5fc5m767mn4vkxpeq/"
                     >
                       secondary market
                     </a>
