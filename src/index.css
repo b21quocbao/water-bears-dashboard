@@ -7,6 +7,7 @@
 :root {
   /*========== Colors ==========*/
   --primary-color: #42bfe8;
+  --sludge-color: #a3d416;
   --primar-color-dark: #2789cd;
   --secondary-color: #f6d896;
   --white-color: #ffffff;
@@ -795,6 +796,31 @@ h6 {
   margin: 0 auto;
   margin-top: calc(24rem / 16);
   transition: all 250ms ease-in;
+}
+
+.sludge {
+  color:  var(--sludge-color);
+}
+
+.hero-mint-btn-dao {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  background-color: var(--sludge-color);
+  border: 1px solid var(--sludge-color);
+  border-radius: calc(8rem / 16);
+  font-size: 20px;
+  font-weight: 400;
+  color: black;
+  cursor: pointer;
+  margin: 0 auto;
+  margin-top: calc(24rem / 16);
+  transition: all 250ms ease-in;
+  height: 40px;
+  line-height: normal;
+  text-align: center;
+  
 }
 
 .hero-mint-btn:hover {

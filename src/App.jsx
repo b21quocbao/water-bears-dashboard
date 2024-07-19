@@ -18,6 +18,10 @@ import MintSludge from "./pages/MintSludge.jsx";
 import Nursery from "./pages/nursery.jsx";
 import Research from "./pages/Research.jsx";
 import { GatewayApiClient } from "@radixdlt/babylon-gateway-api-sdk";
+import HomeDao from "./pages/HomeDao.jsx";
+import Burn from "./pages/Burn.jsx";
+import Treasury from "./pages/Treasury.jsx";
+import Auction from "./pages/Auction.jsx";
 
 function App() {
   const [state, setState] = useState();
@@ -72,6 +76,10 @@ function App() {
           <Route path="/rarity" element={<RarityPage />} />
           <Route path="/nursery" element={<Nursery />} />
           <Route path="/stake" element={<Stake />} />
+          <Route path="/daoHome" element={<HomeDao />} />
+          <Route path="/burn" element={<Burn />} />
+          <Route path="/treasury" element={<Treasury />} />
+          <Route path="/auction" element={<Auction />} />
         </Routes>
       </RadixProvider>
     </>

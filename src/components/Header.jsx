@@ -79,16 +79,72 @@ const Header = ({ selectedAccountAddress, setSelectedAccountAddress }) => {
                       Nursery
                     </a>
                   </Menu.Item>
+                  <Menu.Item key="Sludge">
+                    <a
+                      className={`w-full py-3 w-full px-4 text-black block hover:text-gray-600`}
+                      href="/stake"
+                    >
+                      Stake
+                    </a>
+                  </Menu.Item>
+                  <Menu.Item key="Sludge">
+                    <a
+                      className={`w-full py-3 w-full px-4 text-black block hover:text-gray-600`}
+                      href="/rarity"
+                    >
+                      Rarity
+                    </a>
+                  </Menu.Item>
                 </Menu.Items>
               </Menu>
             </div>
-
-            <a href="/rarity" className="header-navlink">
-              Rarity
-            </a>
-            <a href="/stake" className="header-navlink">
-              Stake
-            </a>
+            <div>
+              <Menu>
+                <Menu.Button className="header-navlink">DAO</Menu.Button>
+                <Menu.Items className="absolute w-56 z-10 shadow-lg bg-white mb-4 gap-8 flex-col rounded-lg flex-row">
+                  <Menu.Item key="WaterBears">
+                    <a
+                      className={`w-full py-3 w-full px-4 text-black block hover:text-gray-600`}
+                      href="/daoHome"
+                    >
+                      Home
+                    </a>
+                  </Menu.Item>
+                  <Menu.Item key="Sludge">
+                    <a
+                      className={`w-full py-3 w-full px-4 text-black block hover:text-gray-600`}
+                      href="/treasury"
+                    >
+                      Treasury
+                    </a>
+                  </Menu.Item>
+                  <Menu.Item key="breed">
+                    <a
+                      className={`w-full py-3 w-full px-4 text-black block hover:text-gray-600`}
+                      href="/burn"
+                    >
+                      Burn
+                    </a>
+                  </Menu.Item>
+                  <Menu.Item key="auction">
+                    <a
+                      className={`w-full py-3 w-full px-4 text-black block hover:text-gray-600`}
+                      href="/auction"
+                    >
+                      Auction
+                    </a>
+                  </Menu.Item>
+                  <Menu.Item key="Sludge">
+                    <a
+                      className={`w-full py-3 w-full px-4 text-black block hover:text-gray-600`}
+                      href="/"
+                    >
+                      Stake
+                    </a>
+                  </Menu.Item>
+                </Menu.Items>
+              </Menu>
+            </div>
           </nav>
           <div className="header-socials">
             <div className={styles["radix-connect-button"]}>
