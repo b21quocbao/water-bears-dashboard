@@ -17,13 +17,13 @@ const Burn = () => {
       onClick: () => console.log("burn sludge"),
       image: Sludge,
       supply: 0,
-      total: 3333,
+      total: 1000,
     },
     {
       onClick: () => console.log("burn baby"),
       image: Baby,
       supply: 0,
-      total: 3333,
+      total: 6666,
     },
     {
       onClick: () => console.log("burn WB"),

@@ -67,7 +67,7 @@ function App() {
           material is responsible for this, but what could it be?
         </div>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/mint" element={<Mint />} />
           <Route path="/research" element={<Research />} />
           <Route path="/mintSludge" element={<MintSludge />} />
@@ -79,7 +79,7 @@ function App() {
           <Route path="/daoHome" element={<HomeDao />} />
           <Route path="/burn" element={<Burn />} />
           <Route path="/treasury" element={<Treasury />} />
-          <Route path="/auction" element={<Auction />} />
+          <Route path="/" element={<Auction />} />
         </Routes>
       </RadixProvider>
     </>

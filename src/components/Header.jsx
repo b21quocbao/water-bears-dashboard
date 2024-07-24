@@ -36,8 +36,8 @@ const Header = ({ selectedAccountAddress, setSelectedAccountAddress }) => {
             <a href="/" className="header-navlink">
               Home
             </a>
-            <a href="#faq" className="header-navlink">
-              FAQ
+            <a href="Burn" className="header-navlink">
+              Burn
             </a>
             <a href="/research" className="header-navlink">
               Research
@@ -99,51 +99,9 @@ const Header = ({ selectedAccountAddress, setSelectedAccountAddress }) => {
               </Menu>
             </div>
             <div>
-              <Menu>
-                <Menu.Button className="header-navlink">DAO</Menu.Button>
-                <Menu.Items className="absolute w-56 z-10 shadow-lg bg-white mb-4 gap-8 flex-col rounded-lg flex-row">
-                  <Menu.Item key="WaterBears">
-                    <a
-                      className={`w-full py-3 w-full px-4 text-black block hover:text-gray-600`}
-                      href="/daoHome"
-                    >
-                      Home
-                    </a>
-                  </Menu.Item>
-                  <Menu.Item key="Sludge">
-                    <a
-                      className={`w-full py-3 w-full px-4 text-black block hover:text-gray-600`}
-                      href="/treasury"
-                    >
-                      Treasury
-                    </a>
-                  </Menu.Item>
-                  <Menu.Item key="breed">
-                    <a
-                      className={`w-full py-3 w-full px-4 text-black block hover:text-gray-600`}
-                      href="/burn"
-                    >
-                      Burn
-                    </a>
-                  </Menu.Item>
-                  <Menu.Item key="auction">
-                    <a
-                      className={`w-full py-3 w-full px-4 text-black block hover:text-gray-600`}
-                      href="/auction"
-                    >
-                      Auction
-                    </a>
-                  </Menu.Item>
-                  <Menu.Item key="Sludge">
-                    <a
-                      className={`w-full py-3 w-full px-4 text-black block hover:text-gray-600`}
-                      href="/"
-                    >
-                      Stake
-                    </a>
-                  </Menu.Item>
-                </Menu.Items>
-              </Menu>
+              <a href="/treasury" className="header-navlink">
+                Treasury
+              </a>
             </div>
           </nav>
           <div className="header-socials">
