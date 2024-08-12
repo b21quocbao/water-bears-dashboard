@@ -1,20 +1,121 @@
-import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
-import About from "../components/About";
-import BearsSlider from "../components/BearsSlider";
-import ComingSoon from "../components/ComingSoon";
-import Contact from "../components/Contact";
-import XRD from "../assets/images/xrd.jpg";
-import FAQ from "../components/FAQ";
-import Footer from "../components/Footer";
-import { FaShare } from "react-icons/fa";
-import Header from "../components/Header";
-import { IoIosHelpCircle } from "react-icons/io";
 import { CiMenuBurger } from "react-icons/ci";
+import { FaShare } from "react-icons/fa";
+import { HiArrowLeft, HiArrowRight } from "react-icons/hi";
+import XRD from "../assets/images/xrd.jpg";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import { useSendTransactionManifest } from "../hooks/useSendTransactionManifest";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useAccounts } from "../hooks/useAccounts";
+import { useDappToolkit } from "../hooks/useDappToolkit";
+import { useInterval } from "../hooks/useInterval";
+import { useSearchParams } from "react-router-dom";
+import { GatewayApiClient } from "@radixdlt/babylon-gateway-api-sdk";
+import { RadixNetwork } from "@radixdlt/radix-dapp-toolkit";
 
-import { useEffect, useRef, useState } from "react";
+const formatDuration = (d) => {
+  d *= 6;
+
+  return `${Math.trunc(d / 60)}h ${d % 60}min`;
+};
+
 const Auction = () => {
+  const auctionComponents = useMemo(
+    () => [
+      {
+        address:
+          "component_rdx1cpj38u4gcrx04ctmrmzlygkyfefsy3up5q5ergzzk0t9ynh0utn52h",
+        image: "/images/daos/4.png",
+        name: "WaterBears Dao #4",
+      },
+      {
+        address:
+          "component_rdx1cpfqesdw3jcehmaj4vd7f34qyrmdvhm6g629jhn9kmnu7q6mjx9k92",
+        image: "/images/daos/3.png",
+        name: "WaterBears Dao #3",
+      },
+    ],
+    []
+  );
+
   const [height, setHeight] = useState(0);
+  const [allBids, setAllBids] = useState(false);
+  const [bids, setBids] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const idx = Number(searchParams.get("id")) || 0;
   const ref = useRef(null);
+  const {
+    state: { accounts },
+    refresh,
+  } = useAccounts();
+  const [accountAddress, setAccountAddress] = useState("");
+  const [userBid, setUserBid] = useState(null);
+  const [winner, setWinner] = useState(null);
+  const { gatewayApi } = useDappToolkit();
+  const [endEpoch, setEndEpoch] = useState(null);
+  const [currentEpoch, setCurrentEpoch] = useState(null);
+  const [bidAmount, setBidAmount] = useState("");
+  const [bidToken, setBidToken] = useState("");
+  const [bidBadgeResource, setBidBadgeResource] = useState("");
+  const [lastBid, setLastBid] = useState("");
+  const [auctionState, setAuctionState] = useState("");
+  const { bid, increaseBid, claimRewardNft, claimFunds } =
+    useSendTransactionManifest()();
+  const isOpen = useMemo(
+    () => auctionState == "Open" && currentEpoch < endEpoch,
+    [auctionState, currentEpoch, endEpoch]
+  );
+
+  const auctionComponent = useMemo(
+    () => auctionComponents[idx].address,
+    [auctionComponents, idx]
+  );
+  const nftImage = useMemo(
+    () => auctionComponents[idx].image,
+    [auctionComponents, idx]
+  );
+  const nftName = useMemo(
+    () => auctionComponents[idx].name,
+    [auctionComponents, idx]
+  );
+
+  useEffect(() => {
+    if (accounts && accounts[0] && !accountAddress) {
+      setAccountAddress(accounts[0].address);
+    }
+  }, [accounts, accountAddress]);
+
+  const account = accounts.find((account) => account.address == accountAddress);
+
+  const bidBadgeId = useMemo(() => {
+    try {
+      if (!account) return null;
+      return account.nonFungibleTokens[bidBadgeResource][0]
+        .id;
+    } catch (err) {
+      return null;
+    }
+  }, [account, bidBadgeResource]);
+
+  const getBids = useCallback(async () => {
+    const { state, status } = gatewayApi;
+    const res = await state.getEntityDetailsVaultAggregated(auctionComponent);
+    setBids(
+      res.fungible_resources.items[0].vaults.items.filter(
+        (x) => x.amount != "0"
+      )
+    );
+    setBidBadgeResource(res.details.state.fields[3].value);
+    setBidToken(res.details.state.fields[4].value);
+    setEndEpoch(Number(res.details.state.fields[5].value));
+    setAuctionState(res.details.state.fields[6].variant_name);
+    setLastBid(res.details.state.fields[7].value);
+
+    const {
+      ledger_state: { epoch },
+    } = await status.getCurrent();
+    setCurrentEpoch(epoch);
+  }, [auctionComponent, gatewayApi]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -24,24 +125,38 @@ const Auction = () => {
     return () => clearInterval(interval);
   }, [ref]);
 
-  const bids = [
-    {
-      name: "toto.xrd",
-      value: 1.74,
-    },
-    {
-      name: "loudriou.xrd",
-      value: 1.65,
-    },
-    {
-      name: "account_4343...",
-      value: 1.43,
-    },
-  ];
+  const getOldStakedWaterBears = useCallback(async () => {
+    if (!bidBadgeId || !bidBadgeResource) {
+      setUserBid(null);
+      setWinner(false);
+      return;
+    }
+    const gatewayApi = GatewayApiClient.initialize({
+      networkId: RadixNetwork.Mainnet,
+      applicationName: "WaterBears",
+    });
+    const { state } = gatewayApi;
+    const res = await state.getNonFungibleData(bidBadgeResource, bidBadgeId);
+    setUserBid({ amount: res.data.programmatic_json.fields[0].value });
+    setWinner({ amount: res.data.programmatic_json.fields[1].value });
+  }, [bidBadgeResource, bidBadgeId]);
+
+  useEffect(() => {
+    getOldStakedWaterBears();
+  }, [getOldStakedWaterBears]);
+
+  useInterval(getBids, 15 * 1000); // refetch every 15s
+
+  useEffect(() => {
+    getBids();
+  }, [getBids])
 
   return (
     <>
-      <Header />
+      <Header
+        selectedAccountAddress={accountAddress}
+        setSelectedAccountAddress={setAccountAddress}
+      />
       <main>
         <section className="hero py-4">
           <div className="mx-auto max-w-5xl p-4 mb-44">
@@ -49,7 +164,7 @@ const Auction = () => {
               <div className="relative mx-auto w-3/4 md:w-1/2">
                 <img
                   ref={ref}
-                  src="/images/waterbears4.png"
+                  src={nftImage}
                   style={{ maxWidth: "95%", zIndex: 2 }}
                   className="relative mx-auto"
                 />
@@ -67,17 +182,6 @@ const Auction = () => {
               </div>
               <div>
                 <div className="flex gap-2 justify-center mt-2 md:mt-0 md:justify-start items-center">
-                  <p
-                    style={{
-                      width: "120px",
-                      height: "30px",
-                      color: "white",
-                      margin: "inherit",
-                    }}
-                    className="hero-mint-btn-dao"
-                  >
-                    July 10-2024
-                  </p>
                   <button
                     style={{
                       color: "white",
@@ -87,6 +191,13 @@ const Auction = () => {
                       width: "40px",
                     }}
                     className="hero-mint-btn-dao"
+                    onClick={() =>
+                      setSearchParams({
+                        id:
+                          (idx - 1 + auctionComponents.length) %
+                          auctionComponents.length,
+                      })
+                    }
                   >
                     <HiArrowLeft />
                   </button>
@@ -98,71 +209,184 @@ const Auction = () => {
                       width: "40px",
                     }}
                     className="hero-mint-btn-dao"
+                    onClick={() =>
+                      setSearchParams({
+                        id:
+                          (idx + 1 + auctionComponents.length) %
+                          auctionComponents.length,
+                      })
+                    }
                   >
                     <HiArrowRight />
                   </button>
                 </div>
-                <p className="text-7xl mt-6 md:mt-2">WaterBears 1175</p>
+                <p className="text-7xl mt-6 md:mt-2">{nftName}</p>
                 <div className="flex mt-3">
                   <div className="flex flex-col items-start border-r-2 pr-6">
-                    <p className="sludge text-2xl">WaterBears 1175</p>
-                    <div className="flex text-5xl items-center gap-1">
-                      <img width={30} height={30} src={XRD} />
-                      1.73
-                    </div>
+                    <p className="sludge text-2xl">{nftName}</p>
+                    {!!userBid && (isOpen || !winner) && (
+                      <div className="flex text-5xl items-center gap-1">
+                        <img width={30} height={30} src={XRD} />
+                        {userBid.amount}
+                      </div>
+                    )}
                   </div>
-                  <div className="flex flex-col items-start pl-6">
-                    <p className="sludge text-2xl">Auction end in</p>
-                    <div className="flex text-5xl items-center gap-1">
-                      5h 35min 8sec
-                    </div>
-                  </div>
-                </div>
-                <p className="sludge flex my-4 items-center gap-1">
-                  <IoIosHelpCircle /> help mint the next noun
-                </p>
-                <div
-                  className="p-1 flex bg-[#4b4949] mb-2 rounded-xl"
-                  style={{ border: "1px gray solid" }}
-                >
-                  <input
-                    type="number"
-                    className="bg-transparent text-xl rounded-xl px-4 w-1/2"
-                    placeholder={"1.75 or more"}
-                  />
-                  <button
-                    style={{
-                      color: "white",
-                      height: "50px",
-                      margin: 0,
-                    }}
-                    className="hero-mint-btn-dao"
-                  >
-                    Place Bid
-                  </button>
-                </div>
-                {bids.map((bid) => {
-                  return (
-                    <div className="flex p-3 bg-[#2f2f2f] items-center mb-2 justify-between rounded-xl w-full">
-                      <p>{bid.name}</p>
-                      <div className="flex gap-3 items-center">
-                        <CiMenuBurger />
-                        {bid.value}
-                        <button>
-                          <FaShare />
-                        </button>
+                  {isOpen ? (
+                    <div className="flex flex-col items-start pl-6">
+                      <p className="sludge text-2xl">Estimated time left</p>
+                      <div className="flex text-5xl items-center gap-1">
+                        {formatDuration(
+                          currentEpoch && endEpoch ? endEpoch - currentEpoch : 0
+                        )}
                       </div>
                     </div>
-                  );
-                })}
-                <div className="flex justify-center mt-4">
-                  <a
-                    className="sludge underline text-center w-full mx-auto"
-                    href="#"
-                  >
-                    View all bids
-                  </a>
+                  ) : (
+                    <div className="flex flex-col items-start pl-6">
+                      <p className="sludge text-2xl items-center">
+                        Auction Ended
+                      </p>
+                      <div className="flex text-5xl items-center gap-1">
+                        Highest Bid: {lastBid}
+                      </div>
+                    </div>
+                  )}
                 </div>
+                {isOpen ? (
+                  <div
+                    className="p-1 flex bg-[#4b4949] mb-2 rounded-xl"
+                    style={{ border: "1px gray solid" }}
+                  >
+                    <input
+                      className="bg-transparent text-xl rounded-xl px-4 w-1/2"
+                      placeholder={`${
+                        bids.length ? Number(bids[0].amount) + 0.01 : 0.01
+                      } or more`}
+                      value={bidAmount}
+                      onChange={(e) => setBidAmount(e.target.value)}
+                    />
+                    <button
+                      style={{
+                        color: "white",
+                        height: "50px",
+                        margin: 0,
+                      }}
+                      className="hero-mint-btn-dao"
+                      onClick={() =>
+                        userBid
+                          ? increaseBid({
+                              auctionComponent,
+                              accountAddress,
+                              bidToken,
+                              amount: Number(bidAmount) - userBid.amount,
+                              bidBadgeResource,
+                              bidBadgeId,
+                            }).then(() => refresh())
+                          : bid({
+                              auctionComponent,
+                              accountAddress,
+                              bidToken,
+                              amount: Number(bidAmount),
+                            }).then(() => refresh())
+                      }
+                    >
+                      Place Bid
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    {userBid ? (
+                      <div
+                        className="my-4 flex flex-col"
+                        style={{ alignItems: "center" }}
+                      >
+                        <p
+                          className="sludge flex items-center gap-1"
+                          style={
+                            !winner
+                              ? {
+                                  color: "red",
+                                }
+                              : {}
+                          }
+                        >
+                          {winner
+                            ? "You won. Please claim reward NFT!"
+                            : "You lost. Please claim back your funds!"}
+                        </p>
+                        <button
+                          style={
+                            !winner
+                              ? {
+                                  background: "red",
+                                  border: "red",
+                                  color: "white",
+                                  height: "50px",
+                                  margin: 0,
+                                }
+                              : {
+                                  color: "white",
+                                  height: "50px",
+                                  margin: 0,
+                                }
+                          }
+                          className="hero-mint-btn-dao"
+                          onClick={() =>
+                            winner
+                              ? claimRewardNft({
+                                  auctionComponent,
+                                  accountAddress,
+                                  bidBadgeResource,
+                                  bidBadgeId,
+                                }).then(() => refresh())
+                              : claimFunds({
+                                  auctionComponent,
+                                  accountAddress,
+                                  bidBadgeResource,
+                                  bidBadgeId,
+                                }).then(() => refresh())
+                          }
+                        >
+                          Claim
+                        </button>
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+                  </>
+                )}
+
+                {isOpen && (
+                  <>
+                    <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+                      {(allBids ? bids : bids.slice(0, 3)).map((bid) => {
+                        return (
+                          <div
+                            className="flex p-3 bg-[#2f2f2f] items-center mb-2 justify-between rounded-xl w-full"
+                            key={bid.vault_address}
+                          >
+                            <p>WaterBearDontCare</p>
+                            <div className="flex gap-3 items-center">
+                              <CiMenuBurger />
+                              {Number(bid.amount).toFixed(2)}
+                              <button>
+                                <FaShare />
+                              </button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="flex justify-center mt-4">
+                      <a
+                        className="sludge underline text-center w-full mx-auto"
+                        href="#"
+                        onClick={() => setAllBids((x) => !x)}
+                      >
+                        {allBids ? "Hide all bids" : "View all bids"}
+                      </a>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>

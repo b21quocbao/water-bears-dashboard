@@ -308,5 +308,161 @@ ${id.map(x => `
         return transactionManifest
     }
 
-    return { buyWaterBear, stakeWaterBear, claimOldRewards, claimRewards, withdrawWaterBear, withdrawOldWaterBear, createStakingId, buyTestTube, buySludge, breedBaby }
+    const bid = ({
+        auctionComponent, 
+        accountAddress, 
+        bidToken, 
+        amount,
+    }) => {
+        const transactionManifest = `
+        CALL_METHOD
+            Address("${accountAddress}")
+            "withdraw"
+            Address("${bidToken}")
+            Decimal("${amount}")
+        ;
+        TAKE_ALL_FROM_WORKTOP
+            Address("${bidToken}")
+            Bucket("bucket")
+        ;
+        CALL_METHOD
+            Address("${auctionComponent}")
+            "bid"
+            Bucket("bucket")
+        ;
+        CALL_METHOD
+            Address("${accountAddress}")
+            "deposit_batch"
+            Expression("ENTIRE_WORKTOP")
+        ;
+    `
+        console.log(transactionManifest)
+        return transactionManifest
+    }
+
+    const increaseBid = ({
+        auctionComponent,
+        accountAddress,
+        bidToken,
+        amount,
+        bidBadgeResource,
+        bidBadgeId,
+    }) => {
+        const transactionManifest = `
+        CALL_METHOD
+            Address("${accountAddress}")
+            "withdraw"
+            Address("${bidToken}")
+            Decimal("${amount}")
+        ;
+        TAKE_ALL_FROM_WORKTOP
+            Address("${bidToken}")
+            Bucket("bucket")
+        ;
+        CALL_METHOD
+            Address("${accountAddress}")
+            "create_proof_of_non_fungibles"
+            Address("${bidBadgeResource}")
+            Array<NonFungibleLocalId>(
+                NonFungibleLocalId("${bidBadgeId}")
+            )
+        ;
+        POP_FROM_AUTH_ZONE
+            Proof("proof")
+        ;
+        CALL_METHOD
+            Address("${auctionComponent}")
+            "increase_bid"
+            Bucket("bucket")
+            Proof("proof")
+        ;
+    `
+        console.log(transactionManifest)
+        return transactionManifest
+    }
+
+    const claimRewardNft = ({
+        auctionComponent,
+        accountAddress,
+        bidBadgeResource,
+        bidBadgeId,
+    }) => {
+        const transactionManifest = `
+        CALL_METHOD
+            Address("${accountAddress}")
+            "withdraw_non_fungibles"
+            Address("${bidBadgeResource}")
+            Array<NonFungibleLocalId>(
+                NonFungibleLocalId("${bidBadgeId}")
+            )
+        ;
+        TAKE_ALL_FROM_WORKTOP
+            Address("${bidBadgeResource}")
+            Bucket("bucket")
+        ;
+        CALL_METHOD
+            Address("${auctionComponent}")
+            "claim_nfts"
+            Bucket("bucket")
+        ;
+        CALL_METHOD
+            Address("${accountAddress}")
+            "deposit_batch"
+            Expression("ENTIRE_WORKTOP")
+        ;
+    `
+        console.log(transactionManifest)
+        return transactionManifest
+    }
+
+    const claimFunds = ({
+        auctionComponent,
+        accountAddress,
+        bidBadgeResource,
+        bidBadgeId,
+    }) => {
+        const transactionManifest = `
+        CALL_METHOD
+            Address("${accountAddress}")
+            "withdraw_non_fungibles"
+            Address("${bidBadgeResource}")
+            Array<NonFungibleLocalId>(
+                NonFungibleLocalId("${bidBadgeId}")
+            )
+        ;
+        TAKE_ALL_FROM_WORKTOP
+            Address("${bidBadgeResource}")
+            Bucket("bucket")
+        ;
+        CALL_METHOD
+            Address("${auctionComponent}")
+            "cancel_bid"
+            Bucket("bucket")
+        ;
+        CALL_METHOD
+            Address("${accountAddress}")
+            "deposit_batch"
+            Expression("ENTIRE_WORKTOP")
+        ;
+    `
+        console.log(transactionManifest)
+        return transactionManifest
+    }
+
+    return {
+        buyWaterBear,
+        stakeWaterBear,
+        claimOldRewards,
+        claimRewards,
+        withdrawWaterBear,
+        withdrawOldWaterBear,
+        createStakingId,
+        buyTestTube,
+        buySludge,
+        breedBaby,
+        bid,
+        increaseBid,
+        claimRewardNft,
+        claimFunds,
+    }
 }

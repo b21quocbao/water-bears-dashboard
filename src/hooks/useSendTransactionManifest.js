@@ -62,6 +62,26 @@ export const useSendTransactionManifest = () => {
           transactionManifests.breedBaby(input),
           "Thank you for breeding BabyWaterBear!"
         ),
+      bid: input =>
+        sendTransaction(
+          transactionManifests.bid(input),
+          "Bidding WaterBearDao!"
+        ),
+      increaseBid: input =>
+        sendTransaction(
+          transactionManifests.increaseBid(input),
+          "Increasing bid amount for WaterBearDao!"
+        ),
+      claimRewardNft: input =>
+        sendTransaction(
+          transactionManifests.claimRewardNft(input),
+          "Claiming reward WaterBearDao!"
+        ),
+      claimFunds: input =>
+        sendTransaction(
+          transactionManifests.claimFunds(input),
+          "Claiming bid funds!"
+        ),
     }),
     [sendTransaction, transactionManifests, xrdAddress]
   )
