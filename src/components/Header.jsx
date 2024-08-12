@@ -36,9 +36,6 @@ const Header = ({ selectedAccountAddress, setSelectedAccountAddress }) => {
             <a href="/" className="header-navlink">
               Home
             </a>
-            <a href="Burn" className="header-navlink">
-              Burn
-            </a>
             <a href="/research" className="header-navlink">
               Research
             </a>
