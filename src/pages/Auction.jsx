@@ -91,8 +91,7 @@ const Auction = () => {
   const bidBadgeId = useMemo(() => {
     try {
       if (!account) return null;
-      return account.nonFungibleTokens[bidBadgeResource][0]
-        .id;
+      return account.nonFungibleTokens[bidBadgeResource][0].id;
     } catch (err) {
       return null;
     }
@@ -150,7 +149,7 @@ const Auction = () => {
 
   useEffect(() => {
     getBids();
-  }, [getBids])
+  }, [getBids]);
 
   useEffect(() => {
     if (isWinner) {
@@ -158,14 +157,14 @@ const Auction = () => {
       return;
     }
 
-    if (auctionState == "Open" && userBid.amount == lastBid) {
+    if (userBid && userBid.amount == lastBid && auctionState == "Open") {
       setWinner(true);
       return;
     }
 
     setWinner(false);
     return;
-  }, [isWinner, auctionState, userBid.amount, lastBid])
+  }, [isWinner, auctionState, userBid && userBid.amount == lastBid, lastBid]);
 
   return (
     <>
