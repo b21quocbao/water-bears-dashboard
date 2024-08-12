@@ -50,6 +50,7 @@ const Auction = () => {
   } = useAccounts();
   const [accountAddress, setAccountAddress] = useState("");
   const [userBid, setUserBid] = useState(null);
+  const [isWinner, setIsWinner] = useState(null);
   const [winner, setWinner] = useState(null);
   const { gatewayApi } = useDappToolkit();
   const [endEpoch, setEndEpoch] = useState(null);
@@ -128,7 +129,7 @@ const Auction = () => {
   const getOldStakedWaterBears = useCallback(async () => {
     if (!bidBadgeId || !bidBadgeResource) {
       setUserBid(null);
-      setWinner(false);
+      setIsWinner(false);
       return;
     }
     const gatewayApi = GatewayApiClient.initialize({
@@ -138,7 +139,7 @@ const Auction = () => {
     const { state } = gatewayApi;
     const res = await state.getNonFungibleData(bidBadgeResource, bidBadgeId);
     setUserBid({ amount: res.data.programmatic_json.fields[0].value });
-    setWinner({ amount: res.data.programmatic_json.fields[1].value });
+    setIsWinner(res.data.programmatic_json.fields[1].value);
   }, [bidBadgeResource, bidBadgeId]);
 
   useEffect(() => {
@@ -150,6 +151,21 @@ const Auction = () => {
   useEffect(() => {
     getBids();
   }, [getBids])
+
+  useEffect(() => {
+    if (isWinner) {
+      setWinner(true);
+      return;
+    }
+
+    if (auctionState == "Open" && userBid.amount == lastBid) {
+      setWinner(true);
+      return;
+    }
+
+    setWinner(false);
+    return;
+  }, [isWinner, auctionState, userBid.amount, lastBid])
 
   return (
     <>
