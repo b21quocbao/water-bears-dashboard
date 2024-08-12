@@ -1,42 +1,68 @@
-import About from "../components/About";
-import BearsSlider from "../components/BearsSlider";
-import ComingSoon from "../components/ComingSoon";
-import Contact from "../components/Contact";
-import FAQ from "../components/FAQ";
+import {
+  GatewayApiClient,
+  RadixNetwork,
+} from "@radixdlt/babylon-gateway-api-sdk";
+import { useCallback, useEffect, useState } from "react";
+import { HiOutlineExternalLink } from "react-icons/hi";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import XRD from "../assets/images/xrd.jpg";
-import Baby from "../assets/images/Baby2.png";
-import Hero from "../components/Hero";
-import SCO from "../assets/images/sco.png";
-import SCO2 from "../assets/images/sco2.png";
-import SCO3 from "../assets/images/sco3.png";
-import COIN from "../assets/images/coin.png";
-import { HiOutlineExternalLink } from "react-icons/hi";
+
 const Treasury = () => {
-  const actions = [
-    {
-      image: XRD,
-      title: "XRD",
-      count: 996.5,
-      value: "$3,222,222.00",
-    },
-    {
-      image: SCO,
-      title: "Scorpion #501",
-      value: "$3,222,222.00",
-    },
-    {
-      image: SCO2,
-      title: "Scorpion #321",
-      value: "$3,222,222.00",
-    },
-    {
-      image: SCO3,
-      title: "Scorpion #745",
-      value: "$3,222,222.00",
-    },
-  ];
+  const [apiRes, setApiRes] = useState(null);
+  const [metadatas, setMetadatas] = useState(null);
+
+  const getOwnedNfts = useCallback(async () => {
+    const gatewayApi = GatewayApiClient.initialize({
+      networkId: RadixNetwork.Mainnet,
+      applicationName: "WaterBears",
+    });
+    const { state } = gatewayApi;
+    const res = await state.getEntityDetailsVaultAggregated(
+      "account_rdx12xxj3j5lx4ls2303pwfs7rtfqnyw77uwc9fluz7d3er6x4vp3n2utz"
+    );
+    setApiRes(res);
+  }, []);
+
+  useEffect(() => {
+    getOwnedNfts();
+  }, [getOwnedNfts]);
+
+  const getAddressMetadata = useCallback(async () => {
+    if (!apiRes) return;
+    const addresses = apiRes.fungible_resources.items
+      .map((x) => x.resource_address)
+      .concat(
+        apiRes.non_fungible_resources.items.map((x) => x.resource_address)
+      );
+    const gatewayApi = GatewayApiClient.initialize({
+      networkId: RadixNetwork.Mainnet,
+      applicationName: "WaterBears",
+    });
+    const { state } = gatewayApi;
+    const res = await state.getEntityDetailsVaultAggregated(addresses);
+    const resAddresses = res.map((x) => x.address);
+    const items = res.map((x) => x.metadata.items);
+
+    const names = items
+      .map((m) => m.find((x) => x.key == "name"))
+      .map((x) => x && x.value.programmatic_json.fields[0].value);
+    const images = items
+      .map((m) => m.find((x) => x.key == "icon_url"))
+      .map((x) => x && x.value.programmatic_json.fields[0].value);
+
+    const metadatas = {};
+    for (let idx in resAddresses) {
+      metadatas[resAddresses[idx]] = {
+        name: names[idx],
+        image: images[idx],
+      };
+    }
+    setMetadatas(metadatas);
+  }, [apiRes]);
+
+  useEffect(() => {
+    getAddressMetadata();
+  }, [getAddressMetadata]);
 
   return (
     <>
@@ -50,35 +76,82 @@ const Treasury = () => {
             WaterBears Treasury
           </h2>
           <div className="flex items-center justify-center">
-            <div className="px-4 text-md flex mt-2 items-center bg-white rounded-xl p-2 text-[#bbb7b7]">
-              Account_xncce43434jjndjf...
+            <a
+              className="px-4 text-md flex mt-2 items-center bg-white rounded-xl p-2 text-[#bbb7b7]"
+              href="https://dashboard.radixdlt.com/account/account_rdx12xxj3j5lx4ls2303pwfs7rtfqnyw77uwc9fluz7d3er6x4vp3n2utz/tokens"
+              target="_blank"
+            >
+              account_rdx12xxj3j5l...
               <HiOutlineExternalLink className="text-[#7d7d7d] w-6 h-6" />
-            </div>
+            </a>
           </div>
-
           <div className="container">
-            <div className="flex flex-wrap md:flex-nowrap mb-44 mt-12 max-w-4xl mx-auto items-center justify-between md:gap-4">
-              {actions.map((action) => {
-                return (
-                  <div className="w-1/2 md:w-full flex bg-[#0f0f0f] overflow-hidden rounded-xl flex-col">
-                    <img src={action.image} alt="action" />
-                    <div className="p-4">
-                      <p className="text-2xl sludge">{action.title}</p>
-                      {action.count ? (
-                        <div className="flex text-3xl items-center gap-1">
-                          <img width={20} height={20} src={XRD} />
-                          {action.count}
-                        </div>
-                      ) : (
-                        <p className="text-sm mt-1 mb-1 text-[#848484]">
-                          Estimated Value
+            <div className="flex flex-wrap md:flex-nowrap mb-44 mt-12 max-w-4xl mx-auto items-center md:gap-4">
+              {!!apiRes &&
+                apiRes.fungible_resources.items.map((item) => {
+                  return (
+                    <div
+                      className="w-[200px] flex bg-[#0f0f0f] overflow-hidden rounded-xl flex-col"
+                      key={item.resource_address}
+                    >
+                      <img
+                        src={
+                          metadatas && metadatas[item.resource_address].image
+                        }
+                        alt="action"
+                      />
+                      <div className="p-4">
+                        <p className="text-2xl sludge">
+                          {metadatas && metadatas[item.resource_address].name}
                         </p>
-                      )}
-                      <p className="text-2xl">{action.value}</p>
+                        <div className="flex text-3xl items-center gap-1">
+                          <img
+                            width={20}
+                            height={20}
+                            src={
+                              metadatas &&
+                              metadatas[item.resource_address].image
+                            }
+                          />
+                          {item.vaults.items.reduce((acc, val) => {
+                            return acc + Number(val.amount);
+                          }, 0)}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              {!!apiRes &&
+                apiRes.non_fungible_resources.items.map((item) => {
+                  return (
+                    <>
+                      {item.vaults.items.map((vault) => (
+                        <>
+                          {vault.items.map((nftItem) => (
+                            <div
+                              className="w-[200px] flex bg-[#0f0f0f] overflow-hidden rounded-xl flex-col"
+                              key={item.resource_address}
+                            >
+                              <img
+                                src={
+                                  metadatas &&
+                                  metadatas[item.resource_address].image
+                                }
+                                alt="action"
+                              />
+                              <div className="p-4">
+                                <p className="text-2xl sludge">
+                                  {metadatas &&
+                                    metadatas[item.resource_address].name + " " + nftItem}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </>
+                      ))}
+                    </>
+                  );
+                })}
             </div>
           </div>
         </section>
