@@ -312,9 +312,18 @@ ${id.map(x => `
         auctionComponent, 
         accountAddress, 
         bidToken, 
+        waterBearId,
         amount,
     }) => {
         const transactionManifest = `
+        CALL_METHOD
+            Address("${accountAddress}")
+            "create_proof_of_non_fungibles"
+            Address("${waterBearResource}")
+            Array<NonFungibleLocalId>(
+                NonFungibleLocalId("${waterBearId}")
+            )
+        ;
         CALL_METHOD
             Address("${accountAddress}")
             "withdraw"

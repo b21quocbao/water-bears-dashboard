@@ -12,6 +12,7 @@ import { useInterval } from "../hooks/useInterval";
 import { useSearchParams } from "react-router-dom";
 import { GatewayApiClient } from "@radixdlt/babylon-gateway-api-sdk";
 import { RadixNetwork } from "@radixdlt/radix-dapp-toolkit";
+import { config } from "../config";
 
 const formatDuration = (d) => {
   d *= 6;
@@ -90,6 +91,15 @@ const Auction = () => {
       return null;
     }
   }, [account, bidBadgeResource]);
+
+  const waterBearNFTs = useMemo(() => {
+    if (!account) return [];
+
+    let nfts = account.nonFungibleTokens[config.addresses.waterBearResource];
+    return nfts
+      ? nfts.map((x) => x.id)
+      : [];
+  }, [account]);
 
   const getBids = useCallback(async () => {
     const { state, status } = gatewayApi;
@@ -294,6 +304,7 @@ const Auction = () => {
                               auctionComponent,
                               accountAddress,
                               bidToken,
+                              waterBearId: waterBearNFTs[0],
                               amount: Number(bidAmount),
                             }).then(() => refresh())
                       }
