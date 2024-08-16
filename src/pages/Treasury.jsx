@@ -2,7 +2,7 @@ import {
   GatewayApiClient,
   RadixNetwork,
 } from "@radixdlt/babylon-gateway-api-sdk";
-import { useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -86,7 +86,7 @@ const Treasury = () => {
             </a>
           </div>
           <div className="container">
-            <div className="flex flex-wrap md:flex-nowrap mb-44 mt-12 max-w-4xl mx-auto items-center md:gap-4">
+            <div className="flex flex-wrap mb-44 mt-12 max-w-4xl mx-auto items-center md:gap-4">
               {!!apiRes &&
                 apiRes.fungible_resources.items.map((item) => {
                   return (
@@ -122,34 +122,35 @@ const Treasury = () => {
                   );
                 })}
               {!!apiRes &&
+                metadatas &&
                 apiRes.non_fungible_resources.items.map((item) => {
                   return (
-                    <>
+                    <Fragment key={item.resource_address}>
                       {item.vaults.items.map((vault) => (
-                        <>
+                        <Fragment key={vault}>
                           {vault.items.map((nftItem) => (
                             <div
                               className="w-[200px] flex bg-[#0f0f0f] overflow-hidden rounded-xl flex-col"
-                              key={item.resource_address}
+                              key={
+                                metadatas[item.resource_address].name + nftItem
+                              }
                             >
                               <img
-                                src={
-                                  metadatas &&
-                                  metadatas[item.resource_address].image
-                                }
+                                src={metadatas[item.resource_address].image}
                                 alt="action"
                               />
                               <div className="p-4">
                                 <p className="text-2xl sludge">
-                                  {metadatas &&
-                                    metadatas[item.resource_address].name + " " + nftItem}
+                                  {metadatas[item.resource_address].name +
+                                    " " +
+                                    nftItem}
                                 </p>
                               </div>
                             </div>
                           ))}
-                        </>
+                        </Fragment>
                       ))}
-                    </>
+                    </Fragment>
                   );
                 })}
             </div>

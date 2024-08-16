@@ -25,7 +25,7 @@ const Auction = () => {
     () => [
       {
         address:
-          "component_rdx1cq657uvs7qstg8yfahpr0us5hdph83zn5z3p4a93hvp6z3wwxleyvk",
+          "component_rdx1cqp6rxw5fewad8e8pzmf4s60dzwt769dmftgsf3rpp0dsp3c4z2lad",
         image: "/images/daos/1.png",
         name: "WaterBears Dao #1",
       },
