@@ -124,36 +124,42 @@ const Treasury = () => {
                 })}
               {!!apiRes &&
                 metadatas &&
-                apiRes.non_fungible_resources.items.filter(item.resource_address != config.addresses.waterBearResourceconfig.).map((item) => {
-                  return (
-                    <Fragment key={item.resource_address}>
-                      {item.vaults.items.map((vault) => (
-                        <Fragment key={vault}>
-                          {vault.items.map((nftItem) => (
-                            <div
-                              className="w-[200px] flex bg-[#0f0f0f] overflow-hidden rounded-xl flex-col"
-                              key={
-                                metadatas[item.resource_address].name + nftItem
-                              }
-                            >
-                              <img
-                                src={metadatas[item.resource_address].image}
-                                alt="action"
-                              />
-                              <div className="p-4">
-                                <p className="text-2xl sludge">
-                                  {metadatas[item.resource_address].name +
-                                    " " +
-                                    nftItem}
-                                </p>
+                apiRes.non_fungible_resources.items
+                  .filter(
+                    item =>
+                    item.resource_address != config.addresses.waterBearResource
+                  )
+                  .map((item) => {
+                    return (
+                      <Fragment key={item.resource_address}>
+                        {item.vaults.items.map((vault) => (
+                          <Fragment key={vault}>
+                            {vault.items.map((nftItem) => (
+                              <div
+                                className="w-[200px] flex bg-[#0f0f0f] overflow-hidden rounded-xl flex-col"
+                                key={
+                                  metadatas[item.resource_address].name +
+                                  nftItem
+                                }
+                              >
+                                <img
+                                  src={metadatas[item.resource_address].image}
+                                  alt="action"
+                                />
+                                <div className="p-4">
+                                  <p className="text-2xl sludge">
+                                    {metadatas[item.resource_address].name +
+                                      " " +
+                                      nftItem}
+                                  </p>
+                                </div>
                               </div>
-                            </div>
-                          ))}
-                        </Fragment>
-                      ))}
-                    </Fragment>
-                  );
-                })}
+                            ))}
+                          </Fragment>
+                        ))}
+                      </Fragment>
+                    );
+                  })}
             </div>
           </div>
         </section>
