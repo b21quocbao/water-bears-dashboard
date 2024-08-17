@@ -6,6 +6,7 @@ import { Fragment, useCallback, useEffect, useState } from "react";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import { config } from "../config";
 
 const Treasury = () => {
   const [apiRes, setApiRes] = useState(null);
@@ -123,7 +124,7 @@ const Treasury = () => {
                 })}
               {!!apiRes &&
                 metadatas &&
-                apiRes.non_fungible_resources.items.map((item) => {
+                apiRes.non_fungible_resources.items.filter(item.resource_address != config.addresses.waterBearResourceconfig.).map((item) => {
                   return (
                     <Fragment key={item.resource_address}>
                       {item.vaults.items.map((vault) => (
