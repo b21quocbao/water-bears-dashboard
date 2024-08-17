@@ -116,7 +116,7 @@ const Treasury = () => {
                           />
                           {item.vaults.items.reduce((acc, val) => {
                             return acc + Number(val.amount);
-                          }, 0)}
+                          }, 0).toFixed(2)}
                         </div>
                       </div>
                     </div>
