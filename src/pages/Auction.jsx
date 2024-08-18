@@ -15,7 +15,7 @@ import { RadixNetwork } from "@radixdlt/radix-dapp-toolkit";
 import { config } from "../config";
 
 const formatDuration = (d) => {
-  d *= 6;
+  d *= 5;
 
   return `${Math.trunc(d / 60)}h ${d % 60}min`;
 };
@@ -23,6 +23,12 @@ const formatDuration = (d) => {
 const Auction = () => {
   const auctionComponents = useMemo(
     () => [
+      {
+        address:
+          "component_rdx1czejxgx8xclvnpt04657u97uy7anvzf5jus9v9w6mqasde5xu3u24e",
+        image: "/images/daos/3.png",
+        name: "WaterBears Dao #3",
+      },
       {
         address:
           "component_rdx1cr3dz2acd2n58nt0m6dj52grl6rk7ugr7kedvax762xn2m6h0a5n0x",
