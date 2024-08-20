@@ -25,6 +25,12 @@ const Auction = () => {
     () => [
       {
         address:
+          "component_rdx1czcxdmj2y4hgnfc3cmjs687etru3c5xt0tzvg3p07tkgax5dask7af",
+        image: "/images/daos/5.png",
+        name: "WaterBears Dao #5",
+      },
+      {
+        address:
           "component_rdx1cqz9a6gse9upe0mgquta0f2yc5tl7xg4h67yafm9fpcwtm9htntwq8",
         image: "/images/daos/4.png",
         name: "WaterBears Dao #4",
@@ -283,7 +289,7 @@ const Auction = () => {
                         Auction Ended
                       </p>
                       <div className="flex text-5xl items-center gap-1">
-                        Highest Bid: {lastBid}
+                        Highest Bid: {Number(lastBid).toFixed(2)}
                       </div>
                     </div>
                   )}
